@@ -1,0 +1,469 @@
+{% include "base.html" %}
+{% block main %}
+<head>
+<title>Object Browser</title>
+
+<style type="text/css">
+.custom-date-style {
+        background-color: red !important;
+}
+label {
+    display: block;
+}
+select {
+    width: 15em;
+}
+#sostablediv {
+    clear: both;
+}
+#filterdiv {
+    margin-top: 10px;
+    width: 1298px;
+}
+#north {
+    float: left;
+}
+#tableParams {
+    border: 1px black;
+}
+.label_ui {
+    float:left;
+    margin-left:.5em;
+    margin-right:.5em;
+}
+
+</style>
+
+<script type='text/javascript'>
+var filterTable;
+
+function update_schemas(container_el) {
+    var cname = $("#containers").val();
+    $("#sostablediv").empty();
+        $.ajax({
+        url: "/sos_db/container/",
+        data: "container="+cname,
+        dataType: 'json',
+        success: function (obj) {
+            if (obj.error) {
+                return alert(obj.error);
+                return;
+            }
+            var i, o;
+            $("#schema").empty();
+            $("#schema option").remove();
+            for (i = 0; i < obj.container.schema.length; i++) {
+                o = document.createElement("OPTION");
+                o.value = obj.container.schema[i].Name;
+                o.text = obj.container.schema[i].Name;
+                $("#schema").append(o);
+            }
+            $("#schema").change(select_schema);
+            if ($("#schema option").length > 0) {
+                    $("#schema option:first-child").attr("selected","selected");
+                    select_schema();
+            }
+        },
+        error: function (xhr, desc, er) {
+               alert(xhr.responseText);
+        }
+    });
+}
+
+function select_schema() {
+    var cname = $("#containers").val();
+    var schema_name = $("#schema").val();
+    $.ajax({
+        url: "/sos_db/schema/",
+        data: "container="+cname+'&'+'schema='+schema_name,
+        dataType: 'json',
+        success: function (obj) {
+            var i, o;
+            if (obj.error) {
+                alert(obj.error);
+                return;
+            }
+            $("#iter_index").empty();
+            $("#iter_index option").remove();
+            for (i = 0; i < obj.schema.attrs.length; i++) {
+                if (obj.schema.attrs[i].indexed == 'True') {
+                    o = document.createElement("OPTION");
+                    o.value = obj.schema.attrs[i].name;
+                    o.text = obj.schema.attrs[i].name;
+                    $("#iter_index").append(o);
+                }
+            }
+            var idxOpts = $("#iter_index option");
+            idxOpts.sort(function(a,b) {
+                if (a.label < b.label)
+                    return -1;
+                else if (a.label == b.label)
+                    return 0;
+                return 1;
+            });
+            $("#iter_index").empty().append(idxOpts);
+
+            var o;
+            var aaData = new Array();
+            for (i = 0; i < obj.schema.attrs.length; i++) {
+                aaData[i] = [ false, obj.schema.attrs[i].name, obj.schema.attrs[i].sos_type,
+                              false, ">=", "", "<=", "" ];
+            }
+
+            filterTable.fnClearTable(false);
+            filterTable.fnAddData(aaData, true);
+            $('input[name="TIMESTAMP"]').datetimepicker({
+                format: "Y/m/d H:i",
+            });
+            $("#selectall")[0].checked = true;
+            select_all($("#selectall")[0]);
+        },
+        error: function (xhr, desc, er) {
+            alert(er);
+        }
+    });
+}
+
+function cbox_chg(el) {
+    var id = el.id;
+    var a = id.split('_');
+    var row = parseInt(a[1]);
+    var col = parseInt(a[2]);
+}
+
+function select_all(el) {
+    var ftbl = $("#filtertable").DataTable();
+    ftbl.rows(function(idx, data, node) {
+        var cols = $('input:checkbox', node);
+        cols[0].checked = el.checked;
+    });
+}
+
+$(document).ready(function() {
+    $("#show_results").button().click(function( event ) {
+        show_results();
+    });
+    $("#radios").buttonset();
+    $("#unique_index").button();
+    $("#show_table").click(function(){ $("#sostablediv").empty(); });
+    $.ajax({
+        url: "/sos_db/directory/",
+        dataType: 'json',
+        success: function (obj) {
+            var i, o;
+            if (obj.error) {
+                alert(obj.error);
+                return;
+            }
+            $("#containers option").remove();
+            for (i = 0; i < obj.directory.length; i++) {
+                o = document.createElement("OPTION");
+                o.value = obj.directory[i].name;
+                o.text = obj.directory[i].name;
+                o.obj = obj;
+                $("#containers").append($(o).clone());
+            }
+            var idxOpts = $("#containers option");
+            idxOpts.sort(function(a,b) {
+                if (a.label < b.label)
+                    return -1;
+                else if (a.label == b.label)
+                    return 0;
+                return 1;
+            });
+            $("#containers").change(update_schemas);
+            if ($("#containers").length > 0) {
+                $("#containers option").attr("selected","selected");
+                update_schemas();
+            }
+        }
+    });
+    var aaData = new Array();
+    filterTable = $("#filtertable").dataTable({
+        "aLengthMenu" : [ 100, 1000, 10000 ],
+        "sScrollY" : "14em",
+        "bProcessing" : true,
+        "aaData" : aaData,
+        "aoColumns": [
+            { "sTitle" : "<label for='selectall'>Show</label><input type='checkbox' id='selectall' onclick='select_all(this)'></input>", "bSortable" : false },
+            { "sTitle" : "Attribute", "bSortable" : true },
+            { "sTitle" : "Type", "bSortable" : false },
+            { "sTitle" : "Filter", "bSortable" : false },
+            { "sTitle" : "CondA", "bSortable" : false },
+            { "sTitle" : "ValueA", "bSortable" : false },
+            { "sTitle" : "CondB", "bSortable" : false },
+            { "sTitle" : "ValueB", "bSortable" : false }
+        ],
+        "aoColumnDefs" : [
+            { "aTargets" : [0],
+              "mData" : function(rowData, type, val) {
+                  if (type == 'set') {
+                      if (val)
+                          rowData[0] = true;
+                      else
+                          rowData[0] = false;
+                  } else
+                      return rowData[0];
+              },
+              "mRender": function (colData, type, rowData, meta) {
+                  if (type == "type")
+                      return "html";
+                  else {
+                      var s = '<input id="fcol_' + meta.row + '_' + meta.col
+                          + '" type="checkbox" onchange="cbox_chg(this)" row="'+meta.row+'" ';
+                      if (colData)
+                          return s + 'checked value="true">';
+                      else
+                          return s + 'value="false">';
+                  }
+              }
+            },
+            { "aTargets" : [3],
+              "mRender": function (colData, type, rowData, meta) {
+                  if (type == "type")
+                      return "html";
+                  else {
+                      if (colData)
+                          return '<input type="checkbox" checked value="true">';
+                      else
+                          return '<input type="checkbox" value="false">';
+                  }
+              }
+            },
+            { "aTargets" : [4],
+              "mRender": function (colData, type, rowData, meta) {
+                  if (type == "type")
+                      return "html";
+                  else {
+                      s = '<select style="width:5em">'
+                          + "<option value=':gt:'>> </option>"
+                          + "<option value=':ge:'>>=</option>"
+                          + "<option value=':eq:'>==</option>"
+                          + "<option value=':le:'><=</option>"
+                          + "<option value=':lt:'>< </option>"
+                          + "</select>"
+                      return s;
+                  }
+              }
+            },
+            { "aTargets" : [5],
+              "mRender": function (colData, type, rowData, meta) {
+                  if (type == "type")
+                      return "html";
+                  else
+                      return '<input type="text" name="' + rowData[2] + '"/>';
+              }
+            },
+            { "aTargets" : [6],
+              "mRender": function (colData, type, rowData, meta) {
+                  if (type == "type")
+                      return "html";
+                  else {
+                      s = '<select style="width:5em">'
+                          + "<option value=':gt:'>> </option>"
+                          + "<option value=':ge:'>>=</option>"
+                          + "<option value=':eq:'>==</option>"
+                          + "<option value=':le:'><=</option>"
+                          + "<option value=':lt:'>< </option>"
+                          + "</select>"
+                      return s;
+                  }
+              }
+            },
+            { "aTargets" : [7],
+              "mRender": function (colData, type, rowData, meta) {
+                  if (type == "type")
+                      return "html";
+                  else
+                      return '<input type="text" name="' + rowData[2] + '"/>';
+              }
+            }
+        ]
+    }).on('draw.dt', function() {
+        $('input[name="TIMESTAMP"]').datetimepicker({
+            format: "Y/m/d H:i",
+        });
+    });
+
+    $( document ).tooltip({
+        position: {
+            my: "center bottom-20",
+            at: "center top",
+            using: function( position, feedback ) {
+                $( this ).css( position );
+                $( "<div>" )
+                    .addClass( "tooltip-arrow" )
+                    .addClass( feedback.vertical )
+                    .addClass( feedback.horizontal )
+                    .appendTo( this );
+            }
+        }
+    });
+});
+
+function show_table(containerName, schemaName, indexName, unique, viewCols, filters) {
+    $("#sostablediv").append('<table id="sostable" class="display dt-body-center cell-border"></table>');
+    $("#sostable").prepend("<thead></thead>");
+    $("thead", "#sostable").append("<tr></tr>");
+
+    // Build the dataTables aoColumnDefs
+    var colNames = viewCols.join(',');
+    var columns = new Array();
+    for (i = 0; i < viewCols.length; i++) {
+        var name = viewCols[i];
+        var col = {
+            bSortable : false,
+            mDataProp : name,
+            sName : name,
+            mData : function (data, type, row, meta) {
+                return data[meta.settings.aoColumns[meta.col].mDataProp];
+            },
+            mRender : function(colData, type, rowData, meta) {
+                if (type == "type") {
+                    return "html";
+                } else {
+                    return rowData[meta.settings.aoColumns[meta.col].mDataProp];
+                }
+            }
+        };
+        columns[i] = col;
+        $("tr","#sostable").append("<th>"+viewCols[i]+"</th>");
+    }
+    // Build the sos_db query
+    var dataSrc = "/sos_db/query/?container=" + encodeURIComponent(containerName)
+        + "&schema=" + encodeURIComponent(schemaName)
+        + "&index=" + encodeURIComponent(indexName);
+    if (unique)
+        dataSrc += "&unique";
+    if ($("#selectall")[0].checked == false)
+        dataSrc += "&select=" + encodeURIComponent(colNames);
+    if (filters.length > 0)
+        dataSrc += "&where=" + encodeURIComponent(filters.join(','));
+    $("#sostable").dataTable({
+        bSort : false,
+        bFilter : false,
+        processing : true,
+        serverSide : true,
+        sAjaxSource : dataSrc,
+        sAjaxDataProp : schemaName,
+        sScrollY : "22em",
+        sScrollX: "auto",
+        aoColumns : columns,
+    });
+}
+
+function show_results(start, count) {
+    start = start || null
+    count = count || null
+    var containerName = $("#containers").val();
+    var schemaName = $("#schema").val();
+    var viewCols = Array();
+    var filters = Array();
+    var indexName = $("#iter_index").val();
+    var filterTable = $("#filtertable").DataTable();
+    viewCols.push(indexName);
+    filterTable.rows(function(idx, data, node) {
+        var cols = $('input:checkbox', node);
+        if (cols[0].checked) {
+            if (data[1] != indexName)
+                viewCols.push(data[1]);
+        }
+        if (cols[1].checked) {
+            var conds = $('select', node);
+            var vals = $('input:text', node);
+            /* Filter condition */
+            var valA = $(vals[0]).val();
+            var valB = $(vals[1]).val();
+            if (data[1] == 'Time') {
+                valA = Date.parse(valA);
+                alert(valA);
+                valB = Date.parse(valB);
+            }
+            var condA = $(conds[0]).val();
+            var condB = $(conds[1]).val();
+            var filterA = data[1] + condA + '"' + valA + '"';
+            var filterB = data[1] + condB + '"' + valB + '"';
+            if (valA.length > 0) {
+                filters.push(filterA);
+            }
+            if (valB.length > 0) {
+                filters.push(filterB);
+            }
+        }
+    });
+    if (viewCols.length == 0) {
+        alert("At least one attribute must be selected.");
+        return;
+    }
+    var unique = $("#unique_index").is(":checked")
+    var view = $('input[name="radios"]:checked').val();
+    $("#sostablediv").empty();
+    show_table(containerName, schemaName, indexName, unique, viewCols, filters);
+}
+
+</script>
+<div id="overlay">
+  <div id="overlay-top" class="vert"></div>
+  <div id="overlay-bottom" class="vert"></div>
+  <div id="overlay-left" class="hor"></div>
+  <div id="overlay-right" class="hor"></div>
+</div>
+<div id='container'>
+  <div class="header">Object Browser</div>
+</head>
+{% block sidebar %}
+  {% include "sidebar.html" %}
+{% endblock %}
+<body>
+  <div id='main'>
+    <div id='north'>
+      <div id='tableParams'>
+        <div class='label_ui'>
+          <label for="containers" title="Select the container">Container</label>
+          <select name="containers" id="containers"></select>
+        </div>
+
+        <div class='label_ui'>
+          <label for='schema' title='Select Schema from container'>Schema</label>
+          <select name='schema' id='schema'></select>
+        </div>
+        <div class='label_ui'>
+          <label for='iter_index' title='Select attribute for ordering'>Index</label>
+          <select name='index' id='iter_index'></select>
+        </div>
+
+        <div class='label_ui'>
+          <label for='unique_index' title='Show only unique values from index'>Unique</label>
+          <input type='checkbox' name='unique_index' id='unique_index'></input>
+        </div>
+      </div>
+      <!-- end table params -->
+      <br style="clear:both"/>
+      <div id='filterdiv' style="margin-top:.5em;">
+        <table id='filtertable' class='display cell-border'>
+          <thead>
+            <tr>
+              <th title='Click checkbox to show attribute in results.'>Show</th>
+              <th title='Name of attribute'>Attribute</th>
+              <th title='Type of attribute'>Type</th>
+              <th title='Click checkbox to enable filter on attribute'>Filter</th>
+              <th title='First condition for the attr'>CondA</th>
+              <th title='Value to be compared with attr. Ignored if not set'>ValueA</th>
+              <th title='Second condition for the attr'>CondB</th>
+              <th title='Second value to be compared with attr'>ValueB</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div id="tg_control">
+        <div>
+          <input id='show_results' type='submit' value='Show Results' />
+        </div>
+      </div>
+      <div id='sostablediv'></div>
+      </div>
+    <!-- end main -->
+  </div>
+</div> <!-- container -->
+</body>
+{% endblock %}

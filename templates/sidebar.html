@@ -1,0 +1,49 @@
+{% load i18n %}
+
+{% block main %}
+<style>
+
+</style>
+<script>
+$(document).ready(function() {
+    $("#menucont").jstree({
+        types : {
+            "child" : {
+                "icon" : "glyphicon glyphicon-ok"
+            }
+        },
+        plugins : [ "types", "themes" ]
+    });
+    $("#menucont li").on("click", "a",
+        function() {
+            document.location.href = this;
+        }
+    );
+});
+</script>
+<div id='menucont'>
+  <ul>
+    <li><a href="/"><span>Home</span></a></li>
+    {% if ldms_nav %}
+        {% include "ldms_nav.html" %}
+    {% endif %}
+    <li class='jstree-open'>SOS
+      <ul>
+        <li class='icon'><a href="/container/"><span>Containers</span></a></li>
+        <li><a href='/objbrowser/'><span>Object Browser</span></a></li>
+      </ul>
+    </li>
+    <!--
+    <li class='jstree-open'>Baler
+      <ul>
+        <li><a href="/balerd/"><span>Daemon Status</span></a></li>
+        <li><a href="/ptn_browser/"><span>Pattern Browser</span></a></li>
+        <li><a href="/msg_browser/"><span>Message Browser</span></a></li>
+        <li><a href="/tkn_browser/"><span>Token Browser</span></a></li>
+        <li><a href="/heatpattern/"><span>Heat Map</span></a></li>
+      </ul>
+    </li>
+    -->
+  </ul>
+</div>
+{% endblock %}

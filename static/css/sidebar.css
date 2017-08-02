@@ -1,0 +1,8 @@
+.menu{margin:0 auto; padding:0; height:50px; width:100%; display:block; background:url(../img/mbkg.png) repeat-y; }
+.menu li{padding:0; margin:0; list-style:none; display:inline;}
+.menu li a{float:left; margin-top: 10px; padding-left:15px; display:block; text-decoration:none; font:17px Verdana, Arial, Helvetica, sans-serif; color: white; cursor:pointer; }
+.menu li a span{line-height:30px; float:left; display:block; padding-right:15px; }
+.menu li a:hover{background-position:0px -60px; font-size:20px; text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;}
+.menu li a:hover span{background-position:100% -60px;}
+.menu li a.active, .menu li a.active:hover{line-height:30px; font:12px Verdana, Arial, Helvetica, sans-serif; color:green;}
+.menu li a.active span, .menu li a.active:hover; 

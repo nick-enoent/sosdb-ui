@@ -1,0 +1,404 @@
+{% include "base.html" %}
+{% block main %}
+<head>
+<title>Container Browser</title>
+
+<style type="text/css">
+{% load staticfiles %}
+.custom-date-style {
+        background-color: red !important;
+}
+label {
+    display: block;
+}
+select {
+    width: 15em;
+}
+#sostablediv {
+}
+#filterdiv {
+    margin-top: 10px;
+    width: 1300px;
+}
+#north {
+    float: left;
+}
+#tableParams {
+    border: 1px black;
+}
+.label_ui {
+    float:left;
+    margin-left:.5em;
+    margin-right:.5em;
+}
+
+</style>
+
+<script type='text/javascript'>
+
+var containerTable;
+var indexTable;
+var partitionTable;
+
+function update_container_table() {
+    $.ajax({
+        url: "/sos_db/directory/",
+        dataType: 'json',
+        success: function (obj) {
+            if (obj.error) {
+                alert(obj.error);
+                return;
+            }
+            containerTable.fnClearTable(false);
+            containerTable.fnAddData(obj.directory, true);
+        }
+    });
+}
+
+function selected_container_name() {
+    var jobRow = containerTable.$('.selected')[0];
+    var jobRowData  = containerTable.DataTable().row(jobRow).data();
+    return jobRowData.name
+}
+
+function update_container_data() {
+    var cname = selected_container_name();
+    $.ajax({
+        url: "/sos_db/container/?container=" + cname,
+        dataType: 'json',
+        success: function (obj) {
+            if (obj.error) {
+                alert(obj.error);
+                return;
+            }
+            schemaTable.fnClearTable(true);
+            if (obj.container.schema.length)
+                schemaTable.fnAddData(obj.container.schema);
+            indexTable.fnClearTable(true);
+            if (obj.container.indexes.length)
+                indexTable.fnAddData(obj.container.indexes);
+            partitionTable.fnClearTable(true);
+            if (obj.container.partitions.length)
+                partitionTable.fnAddData(obj.container.partitions);
+        }
+    });
+}
+
+function update_partition_table() {
+    $.ajax({
+        url: "/sos_db/partitions/",
+        dataType: 'json',
+        success: function (obj) {
+            if (obj.error) {
+                alert(obj.error);
+                return;
+            }
+            var aaData = new Array();
+            for (i = 0; i < obj[0].directory.length; i++)
+                aaData[i] = [ obj[0].directory[i] ];
+            containerTable.fnClearTable(false);
+            containerTable.fnAddData(aaData, true);
+        }
+    });
+}
+
+function pretty_file_size(size)
+{
+    var sz_strs = [ ' ', 'K', 'M', 'G', 'T' ];
+
+    for (var i = 0; i < sz_strs.length; i++) {
+        if (size < 1000 || i == 4) {
+            return size.toFixed(3) + sz_strs[i];
+        }
+        size = size / 1000;
+    }
+}
+
+$(document).ready(function() {
+    var zzData = new Array();
+    containerTable = $("#container_table").dataTable({
+        "sDom": '<"container_toolbar"><"top">rt<"bottom"l><"clear">',
+        "paging" : false,
+        "sScrollY" : "8em",
+        "bProcessing" : true,
+        "aaData" : zzData,
+        "aoColumns": [
+            {
+                "sTitle" : "Name",
+                "bSortable" : true,
+                "mData" : "name"
+            },
+        ],
+    });
+    $("div.container_toolbar").html('<b>Containers</b>');
+    zzData = new Array();
+    schemaTable = $("#schema_table").dataTable({
+        "sDom": '<"schema_toolbar"><"top">rt<"bottom"l><"clear">',
+        "paging" : false,
+        "sScrollY" : "8em",
+        "bProcessing" : true,
+        "aaData" : zzData,
+        "aoColumns": [
+            {
+                "sTitle" : "Name",
+                "bSortable" : true,
+                "mData" : "Name"
+            },
+            {
+                "sTitle" : "AttrCount",
+                "bSortable" : true,
+                "mData" : "AttrCount"
+            },
+        ],
+    });
+    $("div.schema_toolbar").html('<b>Schema</b>');
+
+    var aaData = new Array();
+    indexTable = $("#index_table").dataTable({
+        "sDom": '<"index_toolbar">frt<"bottom"l><"clear">',
+        "paging" : false,
+        "sScrollY" : "14em",
+        "bProcessing" : true,
+        "aaData" : aaData,
+        "aoColumns": [
+            {
+                "sTitle" : "Name",
+                "bSortable" : true,
+                "mData" : "Name"
+            },
+            {
+                "sTitle" : "Entries",
+                "bSortable" : false,
+                "mData" : "Entries"
+            },
+            {
+                "sTitle" : "Duplicates",
+                "bSortable" : false,
+                "mData" : "Duplicates"
+            },
+            {
+                "sTitle" : "Size",
+                "bSortable" : false,
+                "mData" : "Size",
+                "mRender" : function(colData, type, rowData, meta) {
+                    if (type == "type") {
+                        return "html";
+                    } else {
+                        return pretty_file_size(rowData.Size);
+                    }
+                }
+            },
+        ],
+    });
+    $("div.index_toolbar").html('<b>Indexes</b>');
+
+    var bbData = new Array();
+    partitionTable = $("#partition_table").dataTable({
+        "sDom": '<"part_toolbar">frt<"bottom"l><"clear">',
+        "paging" : false,
+        "sScrollY" : "14em",
+        "bProcessing" : true,
+        "sAjaxDataProp" : "partition",
+        "aaData" : bbData,
+        "aoColumns": [
+            {
+                "sTitle" : "Name",
+                "bSortable" : true,
+                "mData" : "Name"
+            },
+            {
+                "sTitle" : "State", "bSortable" : false,
+                "mData" : "State",
+                "mRender" : function(colData, type, rowData, meta) {
+                    if (type == "type") {
+                        return "html";
+                    } else {
+			if (rowData.State == 0)
+			    return "OFFLINE";
+			if (rowData.State == 1)
+			    return "ACTIVE";
+			if (rowData.State == 2)
+			    return "PRIMARY";
+			if (rowData.State == 3)
+			    return "MOVING";
+                        return "INVALID";
+                    }
+                }
+            },
+            {
+                "sTitle" : "Size", "bSortable" : false,
+                "mData" : "Size",
+                "mRender" : function(colData, type, rowData, meta) {
+                    if (type == "type") {
+                        return "html";
+                    } else {
+                        return pretty_file_size(rowData.Size);
+                    }
+                }
+            },
+            {
+                "sTitle" : "Create Time", "bSortable" : false,
+                "mData" : "Created",
+                "mRender" : function(colData, type, rowData, meta) {
+                    if (type == "type") {
+                        return "html";
+                    } else {
+                        var date = new Date(rowData.Created * 1000);
+                        return date;
+                    }
+                }
+            },
+            {
+                "sTitle" : "Access Time", "bSortable" : false,
+                "mData" : "Accessed",
+                "mRender" : function(colData, type, rowData, meta) {
+                    if (type == "type") {
+                        return "html";
+                    } else {
+                        var date = new Date(rowData.Accessed * 1000);
+                        return date;
+                    }
+                }
+            },
+            {
+                "sTitle" : "Modify Time", "bSortable" : false,
+                "mData" : "Modified",
+                "mRender" : function(colData, type, rowData, meta) {
+                    if (type == "type") {
+                        return "html";
+                    } else {
+                        var date = new Date(rowData.Modified * 1000);
+                        return date;
+                    }
+                }
+            },
+        ],
+    });
+    $("div.part_toolbar").html('<b>Partitions</b>');
+
+    $("#container_table tbody").delegate("tr", "click", function() {
+        /* Only allow one row to be selected at a time. */
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        } else {
+            containerTable.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+        update_container_data();
+    });
+
+    $("#schema_table tbody").delegate("tr", "click", function() {
+        /* Only allow one row to be selected at a time. */
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        } else {
+            schemaTable.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    });
+
+    $("#index_table tbody").delegate("tr", "click", function() {
+        /* Only allow one row to be selected at a time. */
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        } else {
+            indexTable.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    });
+
+    $("#partition_table tbody").delegate("tr", "click", function() {
+        /* Only allow one row to be selected at a time. */
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        } else {
+            partitionTable.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    });
+
+    $( document ).tooltip({
+        position: {
+            my: "center bottom-20",
+            at: "center top",
+            using: function( position, feedback ) {
+                $( this ).css( position );
+                $( "<div>" )
+                    .addClass( "toolip-arrow" )
+                    .addClass( feedback.vertical )
+                    .addClass( feedback.horizontal )
+                    .appendTo( this );
+            }
+        }
+    });
+
+    /* Populate the tables */
+    update_container_table();
+});
+
+</script>
+<div id="overlay">
+  <div id="overlay-top" class="vert"></div>
+  <div id="overlay-bottom" class="vert"></div>
+  <div id="overlay-left" class="hor"></div>
+  <div id="overlay-right" class="hor"></div>
+</div>
+<div id='container'>
+  <div class="header">Container Metadata</div>
+</head>
+{% block sidebar %}
+  {% include "sidebar.html" %}
+{% endblock %}
+<body>
+  <div id="main">
+  <div id="north">
+    <div id="container_div" style="float : left; width : 50%;">
+      <table id="container_table" class="display cell-border">
+        <thead>
+          <tr>
+            <th title="Name of container">Name</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div id="schema_div" style="float : left; width : 50%;">
+      <table id="schema_table" class="display cell-border">
+        <thead>
+          <tr>
+            <th title="Name of schema">Name</th>
+            <th title="Number of attributes in the schema">AttrCount</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div id="index_div">
+      <table id="index_table" class="display cell-border">
+        <thead>
+          <tr>
+            <th title="Index name">Name</th>
+            <th title="The number of entries in the index">Entries</th>
+            <th title="The number of duplicate keys in index">Duplicates</th>
+            <th title="The size of the index">Size</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div id="partition_div">
+      <table id="partition_table" class="display cell-border">
+        <thead>
+          <tr>
+            <th title="Partition name">Name</th>
+            <th title="State: OFFLINE == not accessible, ONLINE == accessible, PRIMARY == receives new objects.">State</th>
+            <th title="Size of the partition's data">Size</th>
+            <th title="Time the partition was created.">Accessed</th>
+            <th title="Time the partition was last accessed.">Accessed</th>
+            <th title="Time the partition was last modified.">Modified</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+  </div>
+</div>
+</body>
+{% endblock %}

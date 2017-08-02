@@ -1,0 +1,250 @@
+/*
+ * *	GENERAL COSMETICS
+ * */
+/*body {
+ * 	font-family: Lucida Grande, Lucida Sans, Arial, Helvetica, sans-serif;
+ * 		font-size: 100%;
+ * 			background-color: #EEE;
+ * 			}*/
+body {
+	padding: none;
+}
+p {
+	margin: 1ex 0;
+}
+
+code {
+	font-size: 1.1em;
+	margin: 0;
+	}
+	pre {
+		margin: 1em 0 1em 1em;
+	}
+
+ul {
+	padding: 0;
+	padding-bottom: 20px; /* give whitespace at bottom for FF */
+	margin: 0;
+	list-style-type: square;
+	}
+	li {
+		padding: 0;
+		margin: 0;
+		margin: 0.5ex 0 0.5ex 1.2em;
+	}
+
+table {
+	border-color: #666;
+	}
+	th {
+		background-color: #EEE;
+		//padding: 4px 7px 5px;
+		border-color: #666;
+		text-align: left;
+	}
+	td {
+		//padding: 2px 7px 3px;
+		border-color: #666 #CCC;
+		vertical-align: top;
+	}
+/*#body {
+    max-width: 1600px;
+    display: inline;
+    overflow: hidden;
+}*/
+#overlay {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+        pointer-events: none;
+}
+#overlay .vert {
+	height: 0;
+}
+#overlay .hor {
+	width: 20%;
+}
+#overlay-top { top : 0; }
+#overlay-bottom { bottom : 0; }
+#overlay-left { left : 0; }
+#overlay-right { right : 0; }
+#container {
+	width: 1555px;
+	//margin: 10px auto;
+        background-color: #EEE;
+	border-right: 1px solid;
+	border-left: 1px solid;
+	border-bottom: 1px solid;
+        height: 1600px;
+        overflow: hidden;
+}
+#menucont {
+    margin: 0 5px 5px 5px;
+    margin: 0;
+    border-color: black;
+    float: left;
+    width: 250px;
+    height: 1578px;
+    background-color: #EEE;
+}
+
+#main {
+    margin-left: 255px;
+    width:1298px;
+    height:1578px;
+    border-left: 1px solid;
+    font-family: Lucida Grande, Lucida Sans, Arial, Helvetica, sans-serif;
+    font-size: 100%;
+    background-color: #EEE;
+}
+
+.main {
+    background-color: #EEE;
+}
+
+#north {
+    float: left;
+    width: 100%;
+}
+
+/* inner divs inside Outer East/West panes */
+
+.header { 
+	background: #80ade5 url(../img/80ade5_40x100_textures_04_highlight_hard_100.png) 0 50% repeat-x;
+	border-bottom: 1px solid #777;
+	font-weight: bold;
+	text-align: center;
+	overflow: hidden;
+}
+//.subhead ,
+/*.footer {
+	background: #d6d6d6 url(../img/d6d6d6_40x100_textures_02_glass_80.png) 0 50% repeat-x;
+	padding: 3px 10px;
+	font-size: 0.85em;
+	position: relative;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.subhead { border-bottom: 1px solid #777; }
+.footer  { border-top: 1px solid #777; }
+*/
+/*.block_label {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    display: block;
+}*/
+
+//#jobTabs {
+//    margin-top: 1em;
+//}
+#jobTabs li .ui-icon-close {
+    float: left;
+    margin: 0.4em 0.2em 0 0;
+    cursor: pointer;
+}
+#add_tab {
+    cursor: pointer;
+}
+
+.nav {
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+
+.nav li {
+	float: left;
+	width: 160px;
+	position: relative;
+}
+
+.nav li a {
+	background: #333;
+	color: #fff;
+	display: block;
+	//padding: 5px 5px;
+	text-decoration: none;
+	border-top: 1px solid #069;
+}
+
+.nav li a:hover {
+	color: #069;
+}
+
+/*=== submenu ===*/
+
+.nav ul {
+	display: none;
+	position: absolute;
+	margin-left: 0px;
+	list-style: none;
+	padding: 0px;
+}
+
+.nav ul li {
+	width: 160px;
+	float: left;
+}
+
+.nav ul a {
+	display: block;
+	height: 10px;
+	//padding: 7px 8px;
+	color: #fff;
+	text-decoration: none;
+	border-bottom: 1px solid #222;
+}
+
+.nav ul li a:hover {
+	color: #069;
+}
+
+.ui-tooltip, .tooltip-arrow:after {
+    background: white;
+    border: 2px solid gray;
+}
+
+.ui-tooltip {
+    padding: 10px 20px;
+    color: white;
+    border-radius: 20px;
+    font: 14px "Helvetica Neue", Sans-Serif;
+    box-shadow: 0 0 7px yellow;
+}
+
+.tooltip-arrow {
+    width: 70px;
+    height: 16px;
+    overflow: hidden;
+    position: absolute;
+    left: 50%;
+    margin-left: -35px;
+    bottom: -16px;
+}
+
+.tooltip-arrow.top {
+    top: -16px;
+    bottom: auto;
+}
+
+.tooltip-arrow.left {
+    left: 20%;
+}
+
+.tooltip-arrow:after {
+    content: "";
+    position: absolute;
+    left: 20px;
+    top: -20px;
+    width: 25px;
+    height: 25px;
+    box-shadow: 6px 5px 9px -9px black;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.tooltip-arrow.top:after {
+    bottom: -20px;
+    top: auto;
+}
