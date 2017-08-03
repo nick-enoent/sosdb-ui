@@ -5,7 +5,6 @@ This is a Django project for the SOS Web GUI and Plotting facilities.
 It relies on sosdb >=3, `django`, and `django-http-proxy` (install
 via python pip is the easiest)..
 
-
 Installation
 ============
 Install Dependencies:
