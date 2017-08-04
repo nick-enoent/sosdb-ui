@@ -44,6 +44,7 @@ else:
     pass
 if 'ldms_control' in settings.INSTALLED_APPS:
     urlpatterns.append(url(r'^ldms/', include('ldms_control.urls')))
+    urlpatterns.append(url(r'^ldms_err/', include('ldms_err.urls')))
 else:
     pass
     
