@@ -10,7 +10,7 @@ SUBDIRS = sosgui \
 	container \
 	objbrowser
 
-main_pkgdata_DATA = manage.py db.sqlite3 README.md
+main_pkgdata_DATA = manage.py README.md
 main_pkgdatadir = ${prefix}/
 
 EXTRA_DIST = autogen.sh COPYING

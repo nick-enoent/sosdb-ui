@@ -33,17 +33,9 @@ $(document).ready(function() {
         <li><a href='/objbrowser/'><span>Object Browser</span></a></li>
       </ul>
     </li>
-    <!--
-    <li class='jstree-open'>Baler
-      <ul>
-        <li><a href="/balerd/"><span>Daemon Status</span></a></li>
-        <li><a href="/ptn_browser/"><span>Pattern Browser</span></a></li>
-        <li><a href="/msg_browser/"><span>Message Browser</span></a></li>
-        <li><a href="/tkn_browser/"><span>Token Browser</span></a></li>
-        <li><a href="/heatpattern/"><span>Heat Map</span></a></li>
-      </ul>
-    </li>
-    -->
+    {% if baler_nav %}
+        {% include "baler_nav.html" %}
+    {% endif %}
   </ul>
 </div>
 {% endblock %}

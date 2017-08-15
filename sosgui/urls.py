@@ -13,6 +13,7 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
+from django.contrib.auth import views as auth_views
 from django.conf.urls import include, url
 from django.views.generic import TemplateView
 from django.contrib import admin
@@ -22,6 +23,8 @@ import views
 
 urlpatterns = [
     url(r'^$', views.home),
+    #url(r'^accounts/*$', include('django.contrib.auth.urls')),
+    #url(r'^accounts/login/$', auth_views.login, name='login'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^container/', include('container.urls')),
     url(r'^sos_db/', include('sos_db.urls')),

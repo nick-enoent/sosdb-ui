@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.template import Context, loader
 from django.shortcuts import get_object_or_404, render_to_response
@@ -11,6 +12,7 @@ import settings
 log = open('/tmp/container_views','a')
 
 #Handles templates
+#@login_required
 def home(request):
     try:
         ldms_nav = False

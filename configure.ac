@@ -53,5 +53,6 @@ AC_CONFIG_FILES([
         templates/jobs/Makefile
         templates/objbrowser/Makefile
         templates/plot/Makefile
+        templates/registration/Makefile
         ])
 AC_OUTPUT

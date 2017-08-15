@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.template import Context, loader
 from django.shortcuts import get_object_or_404, render_to_response, redirect
@@ -119,6 +120,7 @@ def png_job_comp_metrics(request):
         log.write('Exception in _plot: '+repr(e)+' Line_no: '+repr(exc_tb.tb_lineno)+'\n')
         raise Http404
 
+#@login_required
 class HttpProxyAuth(HttpProxy):
 
     base_url = None
