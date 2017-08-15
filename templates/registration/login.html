@@ -1,0 +1,28 @@
+{% include "base.html" %}
+<head>
+   <div class="header">OVIS Monitoring GUI</div>
+</head>
+{% block content %}
+{% if form.errors %}
+  <p>Either your username or password was entered incorrectly. Please try again.</p>
+{% endif %}
+
+{% if next %}
+  <h2>Login</h2>
+  <form method="post" action="{% url 'login' %}">
+    <table>
+    {% csrf_token %}
+      <tr>
+        <td>{{ form.username.label_tag }}</td>
+        <td>{{ form.username }}</td>
+      </tr>
+      <tr>
+        <td>{{ form.password.label_tag }}</td>
+        <td>{{ form.password }}</td>
+      </tr>
+    </table>
+    <input type="submit" value="login" />
+    <input type="hidden" name="next" value="{{ next }}" />
+  </form>
+{% endif %}
+{% endblock %}
