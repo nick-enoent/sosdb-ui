@@ -16,9 +16,12 @@ log = open('/tmp/container_views','a')
 def home(request):
     try:
         ldms_nav = False
+        baler_nav = False
         if 'ldms_control' in settings.INSTALLED_APPS:
-                ldms_nav = True
-	return render_to_response('index.html', { "ldms_nav" : ldms_nav })
+            ldms_nav = True
+        if 'balerd' in settings.INSTALLED_APPS:
+            baler_nav = True
+	return render_to_response('index.html', { "ldms_nav" : ldms_nav, "baler_nav" : baler_nav })
     except Exception, e:
 	log.write(repr(e)+'\n')
 	raise Http404

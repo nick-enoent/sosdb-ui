@@ -38,6 +38,7 @@ if 'grafana' in settings.INSTALLED_APPS:
 else:
     pass
 if 'balerd' in settings.INSTALLED_APPS:
+    urlpatterns.append(url(r'^balerd/', include('balerd.urls')))
     urlpatterns.append(url(r'^heatpattern/', include('heatpattern.urls')))
     urlpatterns.append(url(r'^msg_browser/', include('msg_browser.urls')))
     urlpatterns.append(url(r'^ptn_browser/', include('ptn_browser.urls')))
