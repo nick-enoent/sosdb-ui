@@ -47,7 +47,6 @@ function update_schemas(container_el) {
         success: function (obj) {
             if (obj.error) {
                 return alert(obj.error);
-                return;
             }
             var i, o;
             $("#schema").empty();
