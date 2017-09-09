@@ -12,7 +12,7 @@ import settings
 log = open('/tmp/container_views','a')
 
 #Handles templates
-#@login_required
+@login_required
 def home(request):
     try:
         ldms_nav = False

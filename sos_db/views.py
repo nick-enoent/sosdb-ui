@@ -49,7 +49,6 @@ def query(request):
     try:
         s = SosTable()
         t = s.GET(request)
-        log.write('query ret: '+repr(t))
         t = json.dumps(t)
         return HttpResponse(t, content_type="text/json")
     except Exception as e:

@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.template import Context, loader
 from django.shortcuts import get_object_or_404, render_to_response
@@ -11,6 +12,7 @@ import sys
 log = logging.MsgLog("job_view")
 
 #Handles templates
+@login_required
 def index(request):
     try:
 	return render_to_response('jobs/index.html', {})

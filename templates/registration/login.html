@@ -1,13 +1,13 @@
 {% include "base.html" %}
+{% block main %}
 <head>
-   <div class="header">OVIS Monitoring GUI</div>
+<style type="text/css">
+{% load staticfiles %}
+</style>
 </head>
-{% block content %}
-{% if form.errors %}
-  <p>Either your username or password was entered incorrectly. Please try again.</p>
-{% endif %}
-
+<div id='main'>
 {% if next %}
+  <center>
   <h2>Login</h2>
   <form method="post" action="{% url 'login' %}">
     <table>
@@ -24,5 +24,11 @@
     <input type="submit" value="login" />
     <input type="hidden" name="next" value="{{ next }}" />
   </form>
+  </center>
 {% endif %}
+{% if form.errors %}
+  <p>Either your username or password was entered incorrectly. Please try again.</p>
+{% endif %}
+</div> <!-- end main -->
+</div> <!-- end container -->
 {% endblock %}

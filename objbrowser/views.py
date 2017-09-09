@@ -1,3 +1,4 @@
+import django.contrib.auth as auth
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.template import Context, loader
@@ -11,17 +12,16 @@ import sys
 
 log = logging.MsgLog("objbrowser_views")
 
-#@login_required
+@login_required
 def index(request):
-	try:
-		ldms_nav = False
-		baler_nav = False
-		if 'ldms_control' in settings.INSTALLED_APPS:
-			ldms_nav = True
-		if 'balerd' in settings.INSTALLED_APPS:
-			baler_nav = True
-		return render_to_response('objbrowser/index.html', {"ldms_nav" : ldms_nav, "baler_nav" : baler_nav})
-	except Exception as e:
-		log.write(e)
-		raise Http404
+	ldms_nav = False
+	baler_nav = False
+	if 'ldms_control' in settings.INSTALLED_APPS:
+		ldms_nav = True
+	if 'balerd' in settings.INSTALLED_APPS:
+		baler_nav = True
+	return render_to_response('objbrowser/index.html', {"ldms_nav" : ldms_nav, "baler_nav" : baler_nav, "template_name" : "Object Browser" })
+	#if request.user.is_authenticated:
+	#else:
+	#	return render_to_response('registration/login.html', {"ldms_nav" : ldms_nav, "baler_nav": baler_nav})
 

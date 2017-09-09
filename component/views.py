@@ -10,7 +10,7 @@ import json
 import sys
 
 #Handles templates
-#@login_required
+@login_required
 def index(request):
     try:
         ldms_nav = False
@@ -19,6 +19,6 @@ def index(request):
             ldms_nav = True
         if 'baler_nav' in settings.INSTALLED_APPS:
             baler_nav = True
-	return render_to_response('component/index.html', {"ldms_nav":ldms_nav,"baler_nav":baler_nav})
+	return render_to_response('component/index.html', {"ldms_nav":ldms_nav,"baler_nav":baler_nav, "template_name" : "Components" })
     except Exception, e:
 	raise Http404

@@ -77,6 +77,7 @@ def parse_request(request):
         exc_type, exc_obj, exc_tb = sys.exc_info()
         log.write('Exception in parse_request: '+repr(e)+' Line_no: '+repr(exc_tb.tb_lineno)+'\n')
 
+@login_required
 def plot_job_comp_metrics(request):
     """
     Prepares the page that presents the graph image along with inputs
@@ -94,6 +95,7 @@ def plot_job_comp_metrics(request):
         log.write('plot_job_comp: '+repr(e)+'\n')
         raise Http404
 
+@login_required
 def png_job_comp_metrics(request):
     """
     Prepares the actual image file itself as a image/png. Ultimately

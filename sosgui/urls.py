@@ -23,8 +23,8 @@ import views
 
 urlpatterns = [
     url(r'^$', views.home),
-    #url(r'^accounts/*$', include('django.contrib.auth.urls')),
-    #url(r'^accounts/login/$', auth_views.login, name='login'),
+    url(r'^accounts/login/$', auth_views.login, name='login'),
+    url(r'^accounts/logout/$', auth_views.logout, name='logout'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^container/', include('container.urls')),
     url(r'^sos_db/', include('sos_db.urls')),

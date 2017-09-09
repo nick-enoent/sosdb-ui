@@ -116,6 +116,12 @@ table {
 	text-align: center;
 	overflow: hidden;
 }
+
+.logout {
+	padding-right: 10px;
+	text-decoration: none;
+	float: right;
+}
 //.subhead ,
 /*.footer {
 	background: #d6d6d6 url(../img/d6d6d6_40x100_textures_02_glass_80.png) 0 50% repeat-x;
