@@ -34,6 +34,7 @@ AC_CONFIG_FILES([
         component/Makefile
         container/Makefile
         jobs/Makefile
+	sosdb_auth/Makefile
         static/Makefile
         static/css/Makefile
         static/img/Makefile

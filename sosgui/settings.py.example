@@ -32,9 +32,11 @@ ALLOWED_HOSTS = [
 	'www.opengridcomputing.com',
 ]
 
-
 APPEND_SLASH = False
 
+STATIC_ROOT = os.path.join(BASE_DIR, "assets")
+
+AUTH_USER_MODEL = 'sosdb_auth.SosdbUser'
 
 # Application definition
 
@@ -53,6 +55,7 @@ INSTALLED_APPS = (
     'jobs',
     'objbrowser',
     'sos_db',
+    'sosdb_auth',
     # 'debug_toolbar',
 )
 
@@ -61,11 +64,18 @@ try:
     INSTALLED_APPS = INSTALLED_APPS + ldms_settings.INSTALLED_APPS
 except:
     pass
+
 try:
     import grafana_settings
     INSTALLED_APPS = INSTALLED_APPS + grafana_settings.INSTALLED_APPS
 except:
-    pass 
+    pass
+
+try:
+    import baler_settings
+    INSTALLED_APPS = INSTALLED_APPS + baler_settings.INSTALLED_APPS
+except:
+    pass
 
 MIDDLEWARE_CLASSES = (
     'corsheaders.middleware.CorsMiddleware',
@@ -90,9 +100,9 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
@@ -119,7 +129,7 @@ DATABASES = {
     }
 }
 
-SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+#SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
 #SESSION_FILE_PATH = '/tmp/sessions'
 
@@ -148,16 +158,20 @@ STATICFILES_DIRS = [
     '/var/www/sos_web_svcs/static',
 ]
 
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 300
 SOS_ROOT = "/btrfs"
 LOG_FILE = "/var/www/sos_web_svcs/sosgui.log"
 LOG_DATE_FMT = "%F %T"
 ODS_LOG_FILE = "/var/www/sos_web_svcs/ods.log"
 ODS_LOG_MASK = "255"
 ODS_GC_TIMEOUT = 10
-LDMS_SETTINGS = "/opt/ovis/etc/ldms.cfg"
+LDMS_SETTINGS = "/opt/ovis/etc/ldms/ldms.cfg"
+BSTORE_PLUGIN="bstore_sos"
+os.environ.setdefault("BSTORE_PLUGIN_PATH", "/opt/ovis/lib")
+os.environ.setdefault("SET_POS_KEEP_TIME", "3600")
 SYSLOG_SETTINGS = "/opt/ovis/etc/syslog.cfg"
 TIMEZONE=-(8*3600)
-
 
 
 try:
@@ -172,5 +186,5 @@ try:
     cfg_fp = open(SYSLOG_SETTINGS, 'r')
     SYSLOG_CFG = json.load(cfg_fp)
 except Exception as e:
-    log.write(repr(e)+'\n')
+    log.write('SYSLOG_SETTINGS ERR '+repr(e)+'\n')
     SYSLOG_CFG = { "stores" : [] }

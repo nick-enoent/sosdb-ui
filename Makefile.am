@@ -8,7 +8,8 @@ SUBDIRS = sosgui \
 	jobs \
 	component \
 	container \
-	objbrowser
+	objbrowser \
+	sosdb_auth 
 
 main_pkgdata_DATA = manage.py README.md
 main_pkgdatadir = ${prefix}/
