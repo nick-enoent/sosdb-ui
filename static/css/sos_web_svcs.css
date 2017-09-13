@@ -118,9 +118,9 @@ table {
 }
 
 .logout {
-	padding-right: 10px;
+	padding-left: 10px;
 	text-decoration: none;
-	float: right;
+	float: left;
 }
 //.subhead ,
 /*.footer {

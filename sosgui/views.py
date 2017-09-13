@@ -21,7 +21,7 @@ def home(request):
             ldms_nav = True
         if 'balerd' in settings.INSTALLED_APPS:
             baler_nav = True
-	return render_to_response('index.html', { "ldms_nav" : ldms_nav, "baler_nav" : baler_nav })
+	return render_to_response('index.html', { "ldms_nav" : ldms_nav, "baler_nav" : baler_nav, "template_name": "OVIS Monitoring GUI" })
     except Exception, e:
 	log.write(repr(e)+'\n')
 	raise Http404
