@@ -284,6 +284,7 @@ $(document).ready(function() {
         });
     });
 
+    /*
     $( document ).tooltip({
         position: {
             my: "center bottom-20",
@@ -298,6 +299,7 @@ $(document).ready(function() {
             }
         }
     });
+    */
 });
 
 function show_table(containerName, schemaName, indexName, unique, viewCols, filters) {
@@ -321,7 +323,11 @@ function show_table(containerName, schemaName, indexName, unique, viewCols, filt
                 if (type == "type") {
                     return "html";
                 } else {
-                    return rowData[meta.settings.aoColumns[meta.col].mDataProp];
+                    if (meta.col != 0) {
+                        return rowData[meta.settings.aoColumns[meta.col].mDataProp];
+                    } else {
+                        return format_date(new Date(rowData[meta.settings.aoColumns[meta.col].mDataProp] * 1000));
+                    }
                 }
             }
         };

@@ -9,16 +9,19 @@ from sosgui import logging, settings
 import json
 import sys
 
+log = logging.MsgLog("component_views")
+
 #Handles templates
 @login_required
 def index(request):
     try:
         ldms_nav = False
-        baler_nav
+        baler_nav = False
         if 'ldms_control' in settings.INSTALLED_APPS:
             ldms_nav = True
         if 'baler_nav' in settings.INSTALLED_APPS:
             baler_nav = True
 	return render_to_response('component/index.html', {"ldms_nav":ldms_nav,"baler_nav":baler_nav, "template_name" : "Components" })
     except Exception, e:
+	log.write(repr(e))
 	raise Http404
