@@ -21,6 +21,8 @@ Install Dependencies:
     httpd-devel (apache)
     mod_wsgi (libache2-mod-wsgi on ubuntu) - install with yum, pip will not install to correct directory
     numpy
+    libyaml-devel
+    Cython
     pip (Install the following with pip:)
 	Django Version >= 1.10
 	django-cors-headers
