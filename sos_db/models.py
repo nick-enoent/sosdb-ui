@@ -128,6 +128,8 @@ class SosRequest(object):
                     self.schema_ = self.container().schema_by_name(schema)
              except Exception as e:
                  log.write("Schema Error "+repr(e))
+                 return { "Error": "Schema does not exist" }
+                 
 
         #
         # iDisplayStart (dataTable), start
@@ -230,8 +232,8 @@ class SosSchema(SosRequest):
         rows = []
         for attr in self.schema():
             row = {'name': attr.name(), 'id':attr.attr_id(),
-                   'sos_type':attr.type_name(), 'indexed': repr(attr.indexed())}
-            if str(attr.indexed()) == 'True':
+                   'sos_type':attr.type_name(), 'indexed': repr(attr.is_indexed())}
+            if str(attr.is_indexed()) == 'True':
                 stat = attr.index().stats()
                 row['card'] = int(stat['cardinality'])
                 row['dups'] = int(stat['duplicates'])

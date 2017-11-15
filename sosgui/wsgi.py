@@ -29,5 +29,9 @@ try:
     os.environ['ODS_GC_TIMEOUT'] = str(settings.ODS_GC_TIMEOUT)
 except:
     pass
+try:
+    os.environ['SET_POS_KEEP_TIME'] = str(settings.SET_POS_KEEP_TIME)
+except Exception as e:
+    log.write(repr(e))
 
 application = get_wsgi_application()
