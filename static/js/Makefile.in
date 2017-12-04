@@ -239,6 +239,7 @@ abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
+ac_configure_args = @ac_configure_args@
 am__leading_dot = @am__leading_dot@
 am__tar = @am__tar@
 am__untar = @am__untar@
@@ -280,10 +281,11 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = DataTables-1.10.5 jquery-ui-1.11.2 jstree-3.3.3
-js_pkgdata_DATA = moment.js config.js jquery.dthms_picker.js \
+js_pkgdata_DATA = sos_web_svcs.js moment.js config.js jquery.dthms_picker.js \
 	nv.d3.js d3.v3.js
 
 js_pkgdatadir = ${prefix}/static/js
+EXTRA_DIST = $(js_pkgdata_DATA)
 all: all-recursive
 
 .SUFFIXES:

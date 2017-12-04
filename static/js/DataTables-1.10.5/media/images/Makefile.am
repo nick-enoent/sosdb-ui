@@ -4,3 +4,4 @@ dtblimg_pkgdata_DATA = back_disabled.png back_enabled_hover.png back_enabled.png
 					   sort_desc_disabled.png sort_desc.png
 
 dtblimg_pkgdatadir = ${prefix}/static/js/DataTables-1.10.5/media/images
+EXTRA_DIST = $(dtblimg_pkgdata_DATA)

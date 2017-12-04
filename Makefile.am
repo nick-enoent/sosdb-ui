@@ -9,14 +9,17 @@ SUBDIRS = sosgui \
 	component \
 	container \
 	objbrowser \
-	sosdb_auth 
+	sosdb_auth
 
-main_pkgdata_DATA = manage.py README.md
+main_PYTHON = manage.py
+maindir = ${prefix}/
+
+main_pkgdata_DATA = README.md
 main_pkgdatadir = ${prefix}/
 
-EXTRA_DIST = autogen.sh COPYING
+EXTRA_DIST = autogen.sh COPYING $(main_pkgdata_DATA)
 
-#rpm: 
+#rpm:
 #	mkdir -p $@/{BUILD, BUILDROOT, RPMS, SOURCES, SPECS, SRPMS}
 #	cp $(distdir).tar.gz $@/SOURCES
 #	cp sos_web_svcs.spec $@/SPECS

@@ -4,3 +4,4 @@ js_pkgdata_DATA = sos_web_svcs.js moment.js config.js jquery.dthms_picker.js \
 	nv.d3.js d3.v3.js
 
 js_pkgdatadir = ${prefix}/static/js
+EXTRA_DIST=$(js_pkgdata_DATA)
