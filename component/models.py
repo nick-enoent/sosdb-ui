@@ -36,7 +36,6 @@ def open_test(path):
 
 class SosGraph(SosQuery):
     def GET(self, request):
-        log = open('/tmp/graph', 'a')
         rc, msg, obj = self.parse_query(request)
         if rc != 0:
             log.write(msg)
