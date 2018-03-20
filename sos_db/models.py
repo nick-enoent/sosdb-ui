@@ -408,8 +408,25 @@ class SosTable(SosQuery):
                     'iTotalRecords':self.card,
                     'iTotalDisplayRecords': self.card}
         except Exception as e:
+            a, b, exc_tb = sys.exc_info()
+            log.write('SosTable Err: '+str(e)+' '+str(exc_tb.tb_lineno))
+            self.release()
+            return SosErrorReply(e)
+
+    def INSERT(self, request):
+        try:
+            rc, msg, obj = self.parse_request(request)
+            if rc != 0:
+                return { "status" : str(msg) }
+            for attr in self.schema():
+                if attr.name() in self.parms:
+                    obj = self.schema().alloc()
+                    obj[attr.name()] = self.parms[attr.name()].encode('utf-8')
+            return { "status": 0 }
+        except Exception as e:
             if self.filt:
                 del self.filt
             log.write(e)
             self.release()
             return SosErrorReply(e)
+

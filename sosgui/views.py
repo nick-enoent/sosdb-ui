@@ -7,9 +7,9 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.core.urlresolvers import reverse
 import json
 import sys
-import settings
+import settings, logging
 
-log = open('/tmp/container_views','a')
+log = logging.MsgLog('sosgui_views')
 
 #Handles templates
 @login_required

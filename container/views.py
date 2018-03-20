@@ -9,7 +9,7 @@ from sosgui import logging, settings
 import json
 import sys
 
-log = open('/tmp/container_views','a')
+log = logging.MsgLog('container views')
 
 #Handles templates
 @login_required
