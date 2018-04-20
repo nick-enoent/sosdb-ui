@@ -324,7 +324,10 @@ function show_table(containerName, schemaName, indexName, unique, viewCols, filt
                     return "html";
                 } else {
                     if (meta.settings.aoColumns[meta.col].mDataProp == 'timestamp') {
-                        return format_date(new Date(rowData[meta.settings.aoColumns[meta.col].mDataProp]* 1000));
+                        var aDate = new Date(rowData[meta.settings.aoColumns[meta.col].mDataProp]* 1000);
+                        aDate = new Date(aDate - ((aDate.getTimezoneOffset() * 60) * 1000));
+                        tz = aDate.toString().split('(')[1].split(')')[0];
+                        return format_date(aDate) + ' '+tz;
                     } else {
                         return rowData[meta.settings.aoColumns[meta.col].mDataProp];
                     }
