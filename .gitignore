@@ -6,3 +6,4 @@ install-sh
 autom4te.cache
 configure
 build
+db.sqlite3
