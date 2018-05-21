@@ -177,7 +177,6 @@ LDMS_SETTINGS = "ldms.cfg"
 BSTORE_PLUGIN="bstore_sos"
 #os.environ.setdefault("BSTORE_PLUGIN_PATH", "/opt/ovis/lib")
 os.environ.setdefault("SET_POS_KEEP_TIME", "3600")
-SYSLOG_SETTINGS = "syslog.cfg"
 TIMEZONE=-(5*3600)
 
 
@@ -189,12 +188,16 @@ except Exception, e:
     log.write("LDMS_SETTINGS ERROR: " + repr(e)+'\n')
     LDMS_CFG = { "aggregators" : [] }
 
-try:
-    cfg_fp = open(SYSLOG_SETTINGS, 'r')
-    SYSLOG_CFG = json.load(cfg_fp)
-except Exception as e:
-    log.write('SYSLOG_SETTINGS ERR '+repr(e)+'\n')
-    SYSLOG_CFG = { "stores" : [] }
+SYSLOG_CFG = {
+    'stores': [
+        {
+            'name'   : 'store',
+            'path'   : '/home/narate/projects/ui/sosdb-ui/store',
+            'plugin' : 'bstore_sos',
+            'ldms'   : '/home/narate/projects/ui/sosdb-ui/ldms.sos',
+        },
+    ]
+}
 
 # Django LOGGING
 LOGGING = {

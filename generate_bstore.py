@@ -68,6 +68,8 @@ TS_INC = 600
 ALL_TS = [ time.strftime("%FT%T.000000"+TZ_TEXT, time.localtime(ts))
                     for ts in range(TS_BEGIN, TS_BEGIN + TS_DURATION, TS_INC)]
 
+logging.basicConfig(level = logging.INFO)
+
 log = logging.getLogger(__name__)
 
 class Debug(object): pass
@@ -170,6 +172,7 @@ def make_store():
                     ptn_idx += 1
                 h_idx += 1
             ts_idx += 1
+            log.info("Progress: %.02f %%" % (100.0*ts_idx/len(ALL_TS)))
         sock.close()
         proc_wait_cpu(balerd.pid)
     finally:
