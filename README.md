@@ -40,6 +40,10 @@ Configure GUI for your machine
 		- Optional:
 			Change file location of dynamic graph for plotting
 			Change location of sos_web_svcs log file
+
+Create db for webserver:
+    python manage.py migrate
+    python manage.py migrate --run-syncdb
     
 Deploy with Apache2/mod_wsgi:
     Example configuration template for Debian:

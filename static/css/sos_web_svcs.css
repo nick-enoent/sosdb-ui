@@ -71,40 +71,41 @@ table {
 #container {
 	width: 1555px;
 	//margin: 10px auto;
-        background-color: #EEE;
+    background-color: #EEE;
 	border-right: 1px solid;
 	border-left: 1px solid;
 	border-bottom: 1px solid;
-        height: 1600px;
-        overflow: hidden;
+    height: 1600px;
+    overflow: hidden;
 }
 #menucont {
-    margin: 0 5px 5px 5px;
-    margin: 0;
-    border-color: black;
-    float: left;
-    width: 250px;
-    height: 1578px;
-    background-color: #EEE;
+	margin: 0 5px 5px 5px;
+	margin: 0;
+	border-color: black;
+	float: left;
+	width: 250px;
+	height: 1578px;
+	background-color: #EEE;
 }
 
 #main {
-    margin-left: 255px;
-    width:1298px;
-    height:1578px;
-    border-left: 1px solid;
-    font-family: Lucida Grande, Lucida Sans, Arial, Helvetica, sans-serif;
-    font-size: 90%;
-    background-color: #EEE;
+	margin-left: 255px;
+	width:1298px;
+	height:1578px;
+	border-left: 1px solid;
+	font-family: Lucida Grande, Lucida Sans, Arial, Helvetica, sans-serif;
+	font-size: 90%;
+	background-color: #EEE;
 }
 
 .main {
-    background-color: #EEE;
+	background-color: #EEE;
+    overflow: hidden;
 }
 
 #north {
-    float: left;
-    width: 100%;
+	float: left;
+	width: 100%;
 }
 
 /* inner divs inside Outer East/West panes */
@@ -117,10 +118,15 @@ table {
 	overflow: hidden;
 }
 
-.logout {
+.profile {
+    color: #000000;
 	padding-left: 10px;
 	text-decoration: none;
 	float: left;
+}
+
+.profile a:hover {
+    color: #ffffff;
 }
 //.subhead ,
 /*.footer {
