@@ -182,6 +182,23 @@ except Exception, e:
     log.write(repr(e)+'\n')
     LDMS_CFG = { "aggregators" : [] }
 
+# #### SYSLOG (baler) store configuration ####
+#
+# SYSLOG_CFG dict shall follow the following format:
+# ```
+# {
+#   "stores": [
+#     {
+#       "name": "ARBITRARY_NAME_GIVEN_TO_THE_STORE",
+#       "path": "PATH_TO_BSTORE",
+#       "plugin": "BSTORE_PLUGIN_NAME", # e.g. "bstore_sos"
+#       # the following is optional
+#       "ldms": "PATH_TO_LDMS_SOS_CONTAINER", # this is for MetricEvent plotting
+#     },
+#     ...
+#   ]
+# }
+# ```
 try:
     cfg_fp = open(SYSLOG_SETTINGS, 'r')
     SYSLOG_CFG = json.load(cfg_fp)
