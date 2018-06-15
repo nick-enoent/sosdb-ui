@@ -1,11 +1,6 @@
 /*
  * *	GENERAL COSMETICS
  * */
-/*body {
- * 	font-family: Lucida Grande, Lucida Sans, Arial, Helvetica, sans-serif;
- * 		font-size: 100%;
- * 			background-color: #EEE;
- * 			}*/
 body {
 	padding: none;
 }
@@ -38,20 +33,13 @@ table {
 	}
 	th {
 		background-color: #EEE;
-		//padding: 4px 7px 5px;
 		border-color: #666;
 		text-align: left;
 	}
 	td {
-		//padding: 2px 7px 3px;
 		border-color: #666 #CCC;
 		vertical-align: top;
 	}
-/*#body {
-    max-width: 1600px;
-    display: inline;
-    overflow: hidden;
-}*/
 #overlay {
 	position: fixed;
 	width: 100%;
@@ -100,7 +88,10 @@ table {
 
 .main {
 	background-color: #EEE;
-    overflow: hidden;
+}
+
+.loadDisc {
+	background-color: #EEE;
 }
 
 #north {
