@@ -57,33 +57,35 @@ table {
 #overlay-left { left : 0; }
 #overlay-right { right : 0; }
 #container {
-	width: 1555px;
-	//margin: 10px auto;
-    background-color: #EEE;
+	width: 100%;
+	min-width: 1555px;
+	background-color: #EEE;
 	border-right: 1px solid;
 	border-left: 1px solid;
 	border-bottom: 1px solid;
-    height: 1600px;
-    overflow: hidden;
+	height: 1600px;
+	overflow: hidden;
+	display: flex;
 }
 #menucont {
 	margin: 0 5px 5px 5px;
 	margin: 0;
 	border-color: black;
 	float: left;
-	width: 250px;
+	min-width: 250px;
 	height: 1578px;
 	background-color: #EEE;
+	flex: 0;
 }
 
 #main {
-	margin-left: 255px;
-	width:1298px;
+	min-width:1298px;
 	height:1578px;
 	border-left: 1px solid;
 	font-family: Lucida Grande, Lucida Sans, Arial, Helvetica, sans-serif;
 	font-size: 90%;
 	background-color: #EEE;
+	flex: 1;
 }
 
 .main {
