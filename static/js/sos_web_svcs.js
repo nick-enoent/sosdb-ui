@@ -15,3 +15,8 @@ function format_date(aDate)
         + ' ' + h
         + ':' + s;
 }
+function hide_nav(){
+    $("#menuwrapper").toggleClass('collapsed').promise().done(function() {
+        setTimeout(function(){$(window).trigger("resize");},300);
+    });
+}

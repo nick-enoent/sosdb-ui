@@ -67,15 +67,35 @@ table {
 	overflow: hidden;
 	display: flex;
 }
-#menucont {
+#menuwrapper {
 	margin: 0 5px 5px 5px;
 	margin: 0;
+	overflow: hidden;
 	border-color: black;
 	float: left;
-	min-width: 250px;
 	height: 1578px;
 	background-color: #EEE;
+	flex: .15;
+	transition:flex .3s ease-out;
+}
+
+#menuwrapper.collapsed {
 	flex: 0;
+}
+
+#hide_nav {
+	background: none!important;
+	border:none;
+	color: inherit;
+	font: inherit;
+	cursor: pointer;
+	color: #000000;
+		padding-left: 10px;
+		text-decoration: none;
+		float: left;
+}
+#hide_nav:hover {
+	color: white;
 }
 
 #main {
@@ -113,13 +133,13 @@ table {
 
 .profile {
     color: #000000;
-	padding-left: 10px;
+	padding-right: 10px;
 	text-decoration: none;
-	float: left;
+	float: right;
 }
 
-.profile a:hover {
-    color: #ffffff;
+.profile:hover {
+    color: white;
 }
 //.subhead ,
 /*.footer {

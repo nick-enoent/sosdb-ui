@@ -35,7 +35,12 @@
   <div id="overlay-left" class="hor"></div>
   <div id="overlay-right" class="hor"></div>
 </div>
-<div class="header"><a href="/admin/" class="profile">Admin</a>	<a href="/accounts/logout/" class="profile">Logout</a>{{ template_name }}</div>
+<div class="header">
+  <a href="/accounts/logout/" class="profile">Logout</a>
+  <a href="/admin/" class="profile">Admin</a>
+  <button id="hide_nav" onclick="hide_nav();">Hide Nav</button>
+  {{ template_name }}
+</div>
 <div id="container">
 </head>
 {% block sidebar %}
