@@ -9,6 +9,15 @@ from sosgui import settings, logging
 
 log = logging.MsgLog("sosdb_models")
 
+sos_filt_cond = {
+    "gt" : Sos.COND_GT,
+    "ge" : Sos.COND_GE,
+    "ne" : Sos.COND_NE,
+    "eq" : Sos.COND_EQ,
+    "le" : Sos.COND_LE,
+    "lt" : Sos.COND_LT
+}
+
 def open_test(path):
     try:
         c = Sos.Container(str(path))
@@ -334,14 +343,15 @@ class SosQuery(SosRequest):
                 if not attr:
                     return (1, "The attribute {0} was not found "
                             "in the schema {1}".format(attr_name, self.schema().name()), None)
-                cmp_str = tokens[1].lower()
+                sos_cmp = sos_filt_cond[tokens[1]]
                 value_str = None
+                tokens[2] = tokens[2].split('"')[1]
                 for s in tokens[2:]:
                     if value_str:
                         value_str = value_str + ':' + s
                     else:
                         value_str = s
-                self.filt.add(attr, tokens[1], value_str)
+                self.filt.add_condition(attr, sos_cmp, int(tokens[2]))
 
         obj = None
         if self.start == 0:
