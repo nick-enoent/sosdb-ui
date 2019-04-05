@@ -27,8 +27,7 @@ SECRET_KEY = 'tgi*mct^mr^%d=@(e5ix#!elxk5q3i3(&zzbt-!5op-#%h3!h9'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-	'smtp.ogc.us',
-	'10.10.0.15',
+    '127.0.0.1',
 	'www.opengridcomputing.com',
 ]
 
@@ -51,12 +50,10 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'component',
     'container',
-    'plot',
     'jobs',
     'objbrowser',
     'sos_db',
     'sosdb_auth',
-    # 'debug_toolbar',
 )
 
 try:
@@ -159,7 +156,6 @@ STATICFILES_DIRS = [
 ]
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-SESSION_COOKIE_AGE = 300
 SOS_ROOT = "/btrfs"
 LOG_FILE = "/var/www/sos_web_svcs/sosgui.log"
 LOG_DATE_FMT = "%F %T"
