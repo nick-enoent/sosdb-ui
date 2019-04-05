@@ -31,7 +31,6 @@ urlpatterns = [
     url(r'^component/', include('component.urls')),
     url(r'^objbrowser/', include('objbrowser.urls')),
     url(r'^jobs/', include('jobs.urls')),
-    url(r'^plot/', include('plot.urls')),
 ]
 if 'grafana' in settings.INSTALLED_APPS:
     urlpatterns.append(url(r'^grafana/', include('grafana.urls')))

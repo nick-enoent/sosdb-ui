@@ -4,7 +4,6 @@ SUBDIRS = sosgui \
 	static \
 	templates \
 	sos_db \
-	plot \
 	jobs \
 	component \
 	container \

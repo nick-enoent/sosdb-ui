@@ -381,13 +381,18 @@ function show_results(start, count) {
             /* Filter condition */
             var valA = $(vals[0]).val();
             var valB = $(vals[1]).val();
-            if (data[1] == 'Time') {
+            if (data[1] == 'timestamp') {
                 valA = Date.parse(valA);
-                alert(valA);
                 valB = Date.parse(valB);
+                valA = valA/1000;
+                valB = valB/1000;
             }
             var condA = $(conds[0]).val();
             var condB = $(conds[1]).val();
+            valA = String(valA);
+            valB = String(valB);
+            if (valB == "NaN")
+                valB = ""
             var filterA = data[1] + condA + '"' + valA + '"';
             var filterB = data[1] + condB + '"' + valB + '"';
             if (valA.length > 0) {

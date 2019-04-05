@@ -19,11 +19,10 @@ AC_CONFIG_FILES([
         sosgui/Makefile
         sos_db/Makefile
         objbrowser/Makefile
-        plot/Makefile
         component/Makefile
         container/Makefile
         jobs/Makefile
-	sosdb_auth/Makefile
+        sosdb_auth/Makefile
         static/Makefile
         static/css/Makefile
         static/img/Makefile
@@ -42,7 +41,6 @@ AC_CONFIG_FILES([
         templates/container/Makefile
         templates/jobs/Makefile
         templates/objbrowser/Makefile
-        templates/plot/Makefile
         templates/registration/Makefile
         ])
 AC_OUTPUT
