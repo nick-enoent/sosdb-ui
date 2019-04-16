@@ -5,7 +5,6 @@ SUBDIRS = sosgui \
 	templates \
 	sos_db \
 	jobs \
-	component \
 	container \
 	objbrowser \
 	sosdb_auth

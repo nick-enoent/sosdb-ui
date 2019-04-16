@@ -28,7 +28,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^container/', include('container.urls')),
     url(r'^sos_db/', include('sos_db.urls')),
-    url(r'^component/', include('component.urls')),
     url(r'^objbrowser/', include('objbrowser.urls')),
     url(r'^jobs/', include('jobs.urls')),
 ]

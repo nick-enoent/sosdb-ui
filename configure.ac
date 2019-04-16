@@ -19,7 +19,6 @@ AC_CONFIG_FILES([
         sosgui/Makefile
         sos_db/Makefile
         objbrowser/Makefile
-        component/Makefile
         container/Makefile
         jobs/Makefile
         sosdb_auth/Makefile
@@ -37,7 +36,6 @@ AC_CONFIG_FILES([
         static/js/jstree-3.3.3/themes/Makefile
         static/js/jstree-3.3.3/themes/default/Makefile
         templates/Makefile
-        templates/component/Makefile
         templates/container/Makefile
         templates/jobs/Makefile
         templates/objbrowser/Makefile

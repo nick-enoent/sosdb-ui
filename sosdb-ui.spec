@@ -3,17 +3,16 @@
 
 BuildRoot:	%{buildroot}
 Name:		sosdb-ui
-Version:	1.3
-Requires:	sosdb >= 3.4
+Version:	1.5
 Release:	1%{?dist}
-Summary:	This is web GUI for monitoring OVIS.
+Summary:	This is a web GUI for monitoring OVIS.
 
 Group:		%{_grp}
 License:	GPLv2 or BSD
-URL:		http://www.ogc.us
+URL:		https://www.opengridcomputing.com
 Source0:	%{name}.tar.gz
 
-BuildRequires:	libtool swig python-devel
+BuildRequires: libtool, swig, python-devel, libevent-devel, Cython, libyaml-devel
 Prefix:		/var/www/sos_web_svcs
 
 %description
@@ -39,4 +38,3 @@ make install DESTDIR=%{buildroot}
 %{prefix}
 
 %changelog
-
