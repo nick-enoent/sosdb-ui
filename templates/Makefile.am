@@ -1,5 +1,4 @@
-SUBDIRS = component \
-	container \
+SUBDIRS = container \
 	jobs \
 	objbrowser \
 	registration
