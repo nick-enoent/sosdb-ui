@@ -91,7 +91,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            '/var/www/sos_web_svcs/templates',
+            '/var/www/ovis_web_svcs/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -151,28 +151,25 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 #    '/static/',
-    '/var/www/sos_web_svcs/static',
+    '/var/www/ovis_web_svcs/static',
 ]
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SOS_ROOT = "/btrfs"
-LOG_FILE = "/var/www/sos_web_svcs/sosgui.log"
+LOG_FILE = "/var/www/ovis_web_svcs/sosgui.log"
 LOG_DATE_FMT = "%F %T"
-ODS_LOG_FILE = "/var/www/sos_web_svcs/ods.log"
+ODS_LOG_FILE = "/var/www/ovis_web_svcs/ods.log"
 ODS_LOG_MASK = "255"
 ODS_GC_TIMEOUT = 10
-LDMS_SETTINGS = "/opt/ovis/etc/ldms/ldms.cfg"
 BSTORE_PLUGIN="bstore_sos"
-os.environ.setdefault("BSTORE_PLUGIN_PATH", "/opt/ovis/lib")
+os.environ.setdefault("BSTORE_PLUGIN_PATH", "/opt/ovis/lib64")
 os.environ.setdefault("SET_POS_KEEP_TIME", "3600")
-SYSLOG_SETTINGS = "/opt/ovis/etc/syslog.cfg"
 TIMEZONE=-(8*3600)
 
 
 try:
-    cfg_fp = open(LDMS_SETTINGS, 'r')
-    LDMS_CFG = json.load(cfg_fp)
-    log.write(repr(LDMS_CFG)+'\n')
+    import ldms_cfg
+    LDMS_CFG = ldms_cfg.aggregators
 except Exception, e:
     log.write(repr(e)+'\n')
     LDMS_CFG = { "aggregators" : [] }
@@ -195,8 +192,8 @@ except Exception, e:
 # }
 # ```
 try:
-    cfg_fp = open(SYSLOG_SETTINGS, 'r')
-    SYSLOG_CFG = json.load(cfg_fp)
+    import syslog
+    SYSLOG_CFG = syslog.syslog
 except Exception as e:
     log.write('SYSLOG_SETTINGS ERR '+repr(e)+'\n')
     SYSLOG_CFG = { "stores" : [] }
