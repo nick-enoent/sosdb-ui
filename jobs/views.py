@@ -16,7 +16,7 @@ log = logging.MsgLog("job_view")
 def index(request):
     try:
 	return render_to_response('jobs/index.html', {})
-    except Exception, e:
+    except Exception as e:
 	log.write(e)
 	raise Http404
 

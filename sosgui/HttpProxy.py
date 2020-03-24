@@ -12,7 +12,7 @@ class HttpProxyAuth(views.HttpProxy):
             if request.user.is_authenticated():
                 return super(HttpProxyAuth, self).dispatch(request, url, args, kwargs)
             return redirect('/')
-        except Exception, e:
+        except Exception as e:
             log.write(repr(e)+'\n')
             return e
 

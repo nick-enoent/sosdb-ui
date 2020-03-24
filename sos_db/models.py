@@ -1,13 +1,18 @@
+from future import standard_library
+standard_library.install_aliases()
+from builtins import next
+from builtins import str
+from builtins import object
 import sys
 import os
 import datetime, time
 import tempfile
 import json
-import urlparse
+import urllib.parse
 from sosdb import Sos
-from sosgui import settings, logging
+from sosgui import settings, _log
 
-log = logging.MsgLog("sosdb_models")
+log = _log.MsgLog("sosdb_models")
 
 sos_filt_cond = {
     "gt" : Sos.COND_GT,
@@ -167,7 +172,7 @@ class SosRequest(object):
             self.job_id = int(self.job_id)
 
 
-class SosInfo:
+class SosInfo(object):
     def GET(self):
         rows = {"Container Name":request.session['containerName'],
                  "Index Name":request.session['indexName'],
@@ -372,7 +377,7 @@ class SosQuery(SosRequest):
             obj = self.filt.obj()
             while obj and skip != 0:
                 if skip > 0:
-                    obj = self.filt.next()
+                    obj = next(self.filt)
                     skip = skip - 1
                 else:
                     obj = self.filt.prev()
@@ -408,7 +413,7 @@ class SosTable(SosQuery):
                     row[attr_name] = value
                 rows.append(row)
                 count = count + 1
-                obj = self.filt.next()
+                obj = next(self.filt)
             if obj:
                 del obj
             if self.filt:

@@ -13,13 +13,14 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
+from __future__ import absolute_import
 from django.contrib.auth import views as auth_views
 from django.conf.urls import include, url
 from django.views.generic import TemplateView
 from django.contrib import admin
 from HttpProxy import HttpProxyAuth
-import settings
-import views
+from . import settings
+from . import views
 
 urlpatterns = [
     url(r'^$', views.home),

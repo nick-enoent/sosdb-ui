@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.shortcuts import render_to_response
 from django.http import Http404
-import settings, logging
+import settings, _log
 
 log = logging.MsgLog("sosgui_utils")
 

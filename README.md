@@ -11,7 +11,7 @@ Installation Dependencies
     autoconf
     automake
     libtool
-    python-devel (2.7)
+    python-devel (3.6)
     swig
     libevent-devel
     openssl-devel
@@ -46,14 +46,14 @@ Edit TIMEZONE to reflect your local time zone.
         TIMEZONE = -(7*3600)
 
 Optional:
-    Change location of sos_web_svcs log file. Default is sosgui.log
+    Change location of ovis_web_svcs log file. Default is sosgui.log
 
 Install package from source
 ===========================
 ./autogen.sh
 mkdir build
 cd build
-../configure --prefix=<default /var/www/sos_web_svcs>
+../configure --prefix=<default /var/www/ovis_web_svcs>
 make
 make install
 

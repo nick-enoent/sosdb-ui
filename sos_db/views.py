@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
@@ -5,7 +6,7 @@ from django.template import Context, loader
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse, Http404
-from models import SosDir, SosContainer, SosSchema, SosTable
+from .models import SosDir, SosContainer, SosSchema, SosTable
 from sosgui import logging
 import json
 import sys
