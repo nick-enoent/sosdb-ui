@@ -1,7 +1,6 @@
 *~
 *.in
 *.pyc
-missing
 install-sh
 autom4te.cache
 configure
@@ -11,8 +10,6 @@ db.sqlite3
 balerd
 balerd.cfg
 balerd.log
-comp_hist.txt
-hdr.py
 heatmap
 heatpattern
 host.list
@@ -21,7 +18,4 @@ msg_browser
 opie
 ptn_browser
 sosgui/baler_settings.py
-store/
-syslog.cfg
-test.png
 tkn_browser
