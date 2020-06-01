@@ -1,11 +1,6 @@
 /*
  * *	GENERAL COSMETICS
  * */
-/*body {
- * 	font-family: Lucida Grande, Lucida Sans, Arial, Helvetica, sans-serif;
- * 		font-size: 100%;
- * 			background-color: #EEE;
- * 			}*/
 body {
 	padding: none;
 }
@@ -38,20 +33,13 @@ table {
 	}
 	th {
 		background-color: #EEE;
-		//padding: 4px 7px 5px;
 		border-color: #666;
 		text-align: left;
 	}
 	td {
-		//padding: 2px 7px 3px;
 		border-color: #666 #CCC;
 		vertical-align: top;
 	}
-/*#body {
-    max-width: 1600px;
-    display: inline;
-    overflow: hidden;
-}*/
 #overlay {
 	position: fixed;
 	width: 100%;
@@ -69,42 +57,68 @@ table {
 #overlay-left { left : 0; }
 #overlay-right { right : 0; }
 #container {
-	width: 1555px;
-	//margin: 10px auto;
-        background-color: #EEE;
+	width: 100%;
+	min-width: 1555px;
+	background-color: #EEE;
 	border-right: 1px solid;
 	border-left: 1px solid;
 	border-bottom: 1px solid;
-        height: 1600px;
-        overflow: hidden;
+	height: 1600px;
+	overflow: hidden;
+	display: flex;
 }
-#menucont {
-    margin: 0 5px 5px 5px;
-    margin: 0;
-    border-color: black;
-    float: left;
-    width: 250px;
-    height: 1578px;
-    background-color: #EEE;
+#menuwrapper {
+	margin: 0 5px 5px 5px;
+	margin: 0;
+	overflow: hidden;
+	border-color: black;
+	float: left;
+	height: 1578px;
+	background-color: #EEE;
+	flex: .15;
+	transition:flex .3s ease-out;
+}
+
+#menuwrapper.collapsed {
+	flex: 0;
+}
+
+#hide_nav {
+	background: none!important;
+	border:none;
+	color: inherit;
+	font: inherit;
+	cursor: pointer;
+	color: #000000;
+		padding-left: 10px;
+		text-decoration: none;
+		float: left;
+}
+#hide_nav:hover {
+	color: white;
 }
 
 #main {
-    margin-left: 255px;
-    width:1298px;
-    height:1578px;
-    border-left: 1px solid;
-    font-family: Lucida Grande, Lucida Sans, Arial, Helvetica, sans-serif;
-    font-size: 100%;
-    background-color: #EEE;
+	min-width:1298px;
+	height:1578px;
+	border-left: 1px solid;
+	font-family: Lucida Grande, Lucida Sans, Arial, Helvetica, sans-serif;
+	font-size: 90%;
+	background-color: #EEE;
+	flex: 1;
 }
 
 .main {
-    background-color: #EEE;
+	background-color: #EEE;
+}
+
+.loadDisc {
+	background-color: #EEE;
 }
 
 #north {
-    float: left;
-    width: 100%;
+	float: left;
+	width: 100%;
 }
 
 /* inner divs inside Outer East/West panes */
@@ -115,6 +129,17 @@ table {
 	font-weight: bold;
 	text-align: center;
 	overflow: hidden;
+}
+
+.profile {
+    color: #000000;
+	padding-right: 10px;
+	text-decoration: none;
+	float: right;
+}
+
+.profile:hover {
+    color: white;
 }
 //.subhead ,
 /*.footer {

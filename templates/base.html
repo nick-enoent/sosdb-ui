@@ -2,12 +2,12 @@
 
 {% load staticfiles %}
 
-<link href='{% static "css/sos_web_svcs.css" %}' rel="stylesheet" type="text/css"/>
-<link href='{% static "css/nv.d3.css" %}' rel="stylesheet" type="text/css"/>
-<link href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
-<link href='{% static "js/DataTables-1.10.5/media/css/jquery.dataTables.css" %}' rel="stylesheet" type="text/css"/>
-<link href='{% static "js/jquery-ui-1.11.2/jquery-timepicker.css" %}' rel="stylesheet" type="text/css"/>
-<link href='{% static "js/DataTables-1.10.5/media/css/jquery.dataTables_themeroller.css" %}' rel="stylesheet" type="text/css"/>
+<link href='{% static "css/sos_web_svcs.css" %}' rel='stylesheet' type='text/css'/>
+<link href='{% static "css/nv.d3.css" %}' rel='stylesheet' type='text/css'/>
+<link href='{% static "css/jquery-ui.css" %}' rel='stylesheet' type='text/css'/>
+<link href='{% static "js/DataTables-1.10.5/media/css/jquery.dataTables.css" %}' rel='stylesheet' type='text/css'/>
+<link href='{% static "js/jquery-ui-1.11.2/jquery-timepicker.css" %}' rel='stylesheet' type='text/css'/>
+<link href='{% static "js/DataTables-1.10.5/media/css/jquery.dataTables_themeroller.css" %}' rel='stylesheet' type='text/css'/>
 <script src='{% static "js/d3.v3.js" %}' type='text/javascript' charset='utf8'></script>
 <script src='{% static "js/nv.d3.js" %}' type='text/javascript' charset='utf8'></script>
 <script src='{% static "js/moment.js" %}' type='text/javascript' charset='utf8'></script>
@@ -17,11 +17,34 @@
 <script src='{% static "js/DataTables-1.10.5/media/js/jquery.dataTables.js" %}' type='text/javascript' charset='utf8'></script>
 <script src='{% static "js/DataTables-1.10.5/media/js/dataTables.rowGroup.js" %}' type='text/javascript' charset='utf8'></script>
 
-<link href='{% static "css/jquery.dthms_picker.css" %}' rel="stylesheet" type="text/css" />
-<script src='{% static "js/jquery.dthms_picker.js" %}' type="text/javascript"></script>
-<script src='{% static "js/config.js" %}' type="text/javascript"></script>
+<link href='{% static "css/jquery.dthms_picker.css" %}' rel='stylesheet' type='text/css' />
+<script src='{% static "js/jquery.dthms_picker.js" %}' type='text/javascript'></script>
+<script src='{% static "js/config.js" %}' type='text/javascript'></script>
 
-<link href='{% static "js/jstree-3.3.3/themes/default/style.min.css" %}' rel="stylesheet" type="text/css" />
+<script src='{% static "js/spectrum.js" %}' type='text/javascript'></script>
+<link href='{% static "css/spectrum.css" %}' rel='stylesheet' type='text/css' />
+
+<link href='{% static "js/jstree-3.3.3/themes/default/style.min.css" %}' rel='stylesheet' type='text/css' />
 <script src='{% static "js/jstree-3.3.3/jstree.min.js" %}' type='text/javascript' charset='utf8'></script>
-{% block content %}
-{%endblock %}
+<script src='{% static "js/loadingoverlay.min.js" %}' type='text/javascript' charset='utf-8'></script>
+<script src='{% static "js/sos_web_svcs.js" %}' type='text/javascript' charset='utf-8'></script>
+<head>
+<div id="overlay">
+  <div id="overlay-top" class="vert"></div>
+  <div id="overlay-bottom" class="vert"></div>
+  <div id="overlay-left" class="hor"></div>
+  <div id="overlay-right" class="hor"></div>
+</div>
+<div class="header">
+  <a href="/accounts/logout/" class="profile">Logout</a>
+  <a href="/admin/" class="profile">Admin</a>
+  <button id="hide_nav" onclick="hide_nav();">Hide Nav</button>
+  {{ template_name }}
+</div>
+<div id="container">
+</head>
+{% block sidebar %}
+  {% include "sidebar.html" %}
+{% endblock %}
+{% block main %}
+{% endblock %}

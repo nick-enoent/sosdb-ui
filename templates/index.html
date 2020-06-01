@@ -1,10 +1,36 @@
 {% include "base.html" %}
 {% block main %}
 <head>
-   <div class="header">OVIS Monitoring GUI</div>
+<style type="text/css">
+  {% load staticfiles %}
+</style>
 </head>
-{% block sidebar %}
-  {% include "sidebar.html" %}
-{% endblock %}
+<div id='main'>
+<center>
+{% if next %}
+  <h2>Login</h2>
+  <form method="post" action="{% url 'login' %}">
+    <table>
+    {% csrf_token %}
+      <tr>
+        <td>{{ form.username.label_tag }}</td>
+        <td>{{ form.username }}</td>
+      </tr>
+      <tr>
+        <td>{{ form.password.label_tag }}</td>
+        <td>{{ form.password }}</td>
+      </tr>
+    </table>
+    <input type="submit" value="login" />
+    <input type="hidden" name="next" value="{{ next }}" />
+  </form>
+{% endif %}
+{% if form.errors %}
+  <p>Either your username or password was entered incorrectly. Please try again.</p>
+{% endif %}
+  <p>Welcome to the OVIS Monitoring GUI. Select a page from the menu on the left to begin.</p>
+  </center>
+</div> <!-- end main -->
+</div> <!-- end container -->
 
 {%endblock %}

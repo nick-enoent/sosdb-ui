@@ -317,6 +317,7 @@ $(document).ready(function() {
         }
     });
 
+    /*
     $( document ).tooltip({
         position: {
             my: "center bottom-20",
@@ -331,24 +332,14 @@ $(document).ready(function() {
             }
         }
     });
+    */
 
     /* Populate the tables */
     update_container_table();
 });
 
 </script>
-<div id="overlay">
-  <div id="overlay-top" class="vert"></div>
-  <div id="overlay-bottom" class="vert"></div>
-  <div id="overlay-left" class="hor"></div>
-  <div id="overlay-right" class="hor"></div>
-</div>
-<div id='container'>
-  <div class="header">Container Metadata</div>
 </head>
-{% block sidebar %}
-  {% include "sidebar.html" %}
-{% endblock %}
 <body>
   <div id="main">
   <div id="north">
@@ -399,6 +390,5 @@ $(document).ready(function() {
     </div>
   </div>
   </div>
-</div>
 </body>
 {% endblock %}

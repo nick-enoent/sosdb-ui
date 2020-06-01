@@ -10,3 +10,4 @@ img_pkgdata_DATA = 80ade5_40x100_textures_04_highlight_hard_100.png back_disable
 		   details_open.png details_close.png mbkg.png
 
 img_pkgdatadir = ${prefix}/static/img
+EXTRA_DIST=$(img_pkgdata_DATA)

@@ -13,37 +13,39 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
+from django.contrib.auth import views as auth_views
 from django.conf.urls import include, url
 from django.views.generic import TemplateView
 from django.contrib import admin
-from HttpProxy import HttpProxyAuth
 import settings
 import views
 
 urlpatterns = [
     url(r'^$', views.home),
+    url(r'^accounts/login/$', auth_views.login, name='login'),
+    url(r'^accounts/logout/$', auth_views.logout, name='logout'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^container/', include('container.urls')),
     url(r'^sos_db/', include('sos_db.urls')),
-    url(r'^component/', include('component.urls')),
     url(r'^objbrowser/', include('objbrowser.urls')),
     url(r'^jobs/', include('jobs.urls')),
-    url(r'^plot/', include('plot.urls')),
 ]
 if 'grafana' in settings.INSTALLED_APPS:
     urlpatterns.append(url(r'^grafana/', include('grafana.urls')))
 else:
     pass
 if 'balerd' in settings.INSTALLED_APPS:
+    urlpatterns.append(url(r'^balerd/', include('balerd.urls')))
     urlpatterns.append(url(r'^heatpattern/', include('heatpattern.urls')))
     urlpatterns.append(url(r'^msg_browser/', include('msg_browser.urls')))
     urlpatterns.append(url(r'^ptn_browser/', include('ptn_browser.urls')))
     urlpatterns.append(url(r'^tkn_browser/', include('tkn_browser.urls')))
     urlpatterns.append(url(r'^opie/', include('opie.urls')))
+    urlpatterns.append(url(r'^heatmap/', include('heatmap.urls')))
 else:
     pass
 if 'ldms_control' in settings.INSTALLED_APPS:
     urlpatterns.append(url(r'^ldms/', include('ldms_control.urls')))
+    urlpatterns.append(url(r'^ldms_err/', include('ldms_err.urls')))
 else:
     pass
-    

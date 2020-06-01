@@ -1,3 +1,4 @@
-jobs_python_DATA = __init__.py urls.py models.py views.py admin.py
+jobs_PYTHON = __init__.py urls.py models.py views.py 
+jobsdir = ${prefix}/jobs
+EXTRA_DIST=$(jobs_PYTHON)
 
-jobs_pythondir = ${prefix}/jobs

@@ -27,14 +27,15 @@ SECRET_KEY = 'tgi*mct^mr^%d=@(e5ix#!elxk5q3i3(&zzbt-!5op-#%h3!h9'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-	'smtp.ogc.us',
-	'10.10.0.15',
+    '127.0.0.1',
 	'www.opengridcomputing.com',
 ]
 
-
 APPEND_SLASH = False
 
+STATIC_ROOT = os.path.join(BASE_DIR, "assets")
+
+AUTH_USER_MODEL = 'sosdb_auth.SosdbUser'
 
 # Application definition
 
@@ -47,13 +48,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'component',
     'container',
-    'plot',
     'jobs',
     'objbrowser',
     'sos_db',
-    # 'debug_toolbar',
+    'sosdb_auth',
 )
 
 try:
@@ -61,11 +60,18 @@ try:
     INSTALLED_APPS = INSTALLED_APPS + ldms_settings.INSTALLED_APPS
 except:
     pass
+
 try:
     import grafana_settings
     INSTALLED_APPS = INSTALLED_APPS + grafana_settings.INSTALLED_APPS
 except:
-    pass 
+    pass
+
+try:
+    import baler_settings
+    INSTALLED_APPS = INSTALLED_APPS + baler_settings.INSTALLED_APPS
+except:
+    pass
 
 MIDDLEWARE_CLASSES = (
     'corsheaders.middleware.CorsMiddleware',
@@ -85,14 +91,14 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            '/var/www/sos_web_svcs/templates',
+            '/var/www/ovis_web_svcs/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
@@ -119,7 +125,7 @@ DATABASES = {
     }
 }
 
-SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+#SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
 #SESSION_FILE_PATH = '/tmp/sessions'
 
@@ -145,32 +151,49 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 #    '/static/',
-    '/var/www/sos_web_svcs/static',
+    '/var/www/ovis_web_svcs/static',
 ]
 
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SOS_ROOT = "/btrfs"
-LOG_FILE = "/var/www/sos_web_svcs/sosgui.log"
+LOG_FILE = "/var/www/ovis_web_svcs/sosgui.log"
 LOG_DATE_FMT = "%F %T"
-ODS_LOG_FILE = "/var/www/sos_web_svcs/ods.log"
+ODS_LOG_FILE = "/var/www/ovis_web_svcs/ods.log"
 ODS_LOG_MASK = "255"
 ODS_GC_TIMEOUT = 10
-LDMS_SETTINGS = "/opt/ovis/etc/ldms.cfg"
-SYSLOG_SETTINGS = "/opt/ovis/etc/syslog.cfg"
+BSTORE_PLUGIN="bstore_sos"
+os.environ.setdefault("BSTORE_PLUGIN_PATH", "/opt/ovis/lib64")
+os.environ.setdefault("SET_POS_KEEP_TIME", "3600")
 TIMEZONE=-(8*3600)
 
 
-
 try:
-    cfg_fp = open(LDMS_SETTINGS, 'r')
-    LDMS_CFG = json.load(cfg_fp)
-    log.write(repr(LDMS_CFG)+'\n')
+    import ldms_cfg
+    LDMS_CFG = ldms_cfg.aggregators
 except Exception, e:
     log.write(repr(e)+'\n')
     LDMS_CFG = { "aggregators" : [] }
 
+# #### SYSLOG (baler) store configuration ####
+#
+# SYSLOG_CFG dict shall follow the following format:
+# ```
+# {
+#   "stores": [
+#     {
+#       "name": "ARBITRARY_NAME_GIVEN_TO_THE_STORE",
+#       "path": "PATH_TO_BSTORE",
+#       "plugin": "BSTORE_PLUGIN_NAME", # e.g. "bstore_sos"
+#       # the following is optional
+#       "ldms": "PATH_TO_LDMS_SOS_CONTAINER", # this is for MetricEvent plotting
+#     },
+#     ...
+#   ]
+# }
+# ```
 try:
-    cfg_fp = open(SYSLOG_SETTINGS, 'r')
-    SYSLOG_CFG = json.load(cfg_fp)
+    import syslog
+    SYSLOG_CFG = syslog.syslog
 except Exception as e:
-    log.write(repr(e)+'\n')
+    log.write('SYSLOG_SETTINGS ERR '+repr(e)+'\n')
     SYSLOG_CFG = { "stores" : [] }

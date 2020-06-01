@@ -179,6 +179,7 @@ abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
+ac_configure_args = @ac_configure_args@
 am__leading_dot = @am__leading_dot@
 am__tar = @am__tar@
 am__untar = @am__untar@
@@ -221,6 +222,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 dtblcss_pkgdata_DATA = jquery.dataTables.css jquery.dataTables_themeroller.css
 dtblcss_pkgdatadir = ${prefix}/static/js/DataTables-1.10.5/media/css
+EXTRA_DIST = $(dtblcss_pkgdata_DATA)
 all: all-am
 
 .SUFFIXES:

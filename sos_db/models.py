@@ -9,6 +9,15 @@ from sosgui import settings, logging
 
 log = logging.MsgLog("sosdb_models")
 
+sos_filt_cond = {
+    "gt" : Sos.COND_GT,
+    "ge" : Sos.COND_GE,
+    "ne" : Sos.COND_NE,
+    "eq" : Sos.COND_EQ,
+    "le" : Sos.COND_LE,
+    "lt" : Sos.COND_LT
+}
+
 def open_test(path):
     try:
         c = Sos.Container(str(path))
@@ -128,6 +137,8 @@ class SosRequest(object):
                     self.schema_ = self.container().schema_by_name(schema)
              except Exception as e:
                  log.write("Schema Error "+repr(e))
+                 return { "Error": "Schema does not exist" }
+                 
 
         #
         # iDisplayStart (dataTable), start
@@ -230,8 +241,8 @@ class SosSchema(SosRequest):
         rows = []
         for attr in self.schema():
             row = {'name': attr.name(), 'id':attr.attr_id(),
-                   'sos_type':attr.type_name(), 'indexed': repr(attr.indexed())}
-            if str(attr.indexed()) == 'True':
+                   'sos_type':attr.type_name(), 'indexed': repr(attr.is_indexed())}
+            if str(attr.is_indexed()) == 'True':
                 stat = attr.index().stats()
                 row['card'] = int(stat['cardinality'])
                 row['dups'] = int(stat['duplicates'])
@@ -332,14 +343,15 @@ class SosQuery(SosRequest):
                 if not attr:
                     return (1, "The attribute {0} was not found "
                             "in the schema {1}".format(attr_name, self.schema().name()), None)
-                cmp_str = tokens[1].lower()
+                sos_cmp = sos_filt_cond[tokens[1]]
                 value_str = None
+                tokens[2] = tokens[2].split('"')[1]
                 for s in tokens[2:]:
                     if value_str:
                         value_str = value_str + ':' + s
                     else:
                         value_str = s
-                self.filt.add(attr, tokens[1], value_str)
+                self.filt.add_condition(attr, sos_cmp, int(tokens[2]))
 
         obj = None
         if self.start == 0:
@@ -406,8 +418,25 @@ class SosTable(SosQuery):
                     'iTotalRecords':self.card,
                     'iTotalDisplayRecords': self.card}
         except Exception as e:
+            a, b, exc_tb = sys.exc_info()
+            log.write('SosTable Err: '+str(e)+' '+str(exc_tb.tb_lineno))
+            self.release()
+            return SosErrorReply(e)
+
+    def INSERT(self, request):
+        try:
+            rc, msg, obj = self.parse_request(request)
+            if rc != 0:
+                return { "status" : str(msg) }
+            for attr in self.schema():
+                if attr.name() in self.parms:
+                    obj = self.schema().alloc()
+                    obj[attr.name()] = self.parms[attr.name()].encode('utf-8')
+            return { "status": 0 }
+        except Exception as e:
             if self.filt:
                 del self.filt
             log.write(e)
             self.release()
             return SosErrorReply(e)
+

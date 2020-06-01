@@ -1,0 +1,33 @@
+{% block main %}
+<head>
+<style type="text/css">
+{% load staticfiles %}
+</style>
+</head>
+<div id='main'>
+{% if next %}
+  <center>
+  <h2>Login</h2>
+  <form method="post" action="{% url 'login' %}">
+    <table>
+    {% csrf_token %}
+      <tr>
+        <td>{{ form.username.label_tag }}</td>
+        <td>{{ form.username }}</td>
+      </tr>
+      <tr>
+        <td>{{ form.password.label_tag }}</td>
+        <td>{{ form.password }}</td>
+      </tr>
+    </table>
+    <input type="submit" value="login" />
+    <input type="hidden" name="next" value="{{ next }}" />
+  </form>
+  </center>
+{% endif %}
+{% if form.errors %}
+  <p>Either your username or password was entered incorrectly. Please try again.</p>
+{% endif %}
+</div> <!-- end main -->
+</div> <!-- end container -->
+{% endblock %}
