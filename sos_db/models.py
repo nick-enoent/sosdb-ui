@@ -25,7 +25,7 @@ sos_filt_cond = {
 
 def open_test(path):
     try:
-        c = Sos.Container(str(path))
+        c = Sos.Container(path)
         c.close()
         return True
     except Exception as e:
@@ -49,13 +49,10 @@ def SosDir():
         for ovc in dirs:
             try:
                 ovc_path = settings.SOS_ROOT + '/' + ovc
-                try:
-                    files = os.listdir(ovc_path)
-                    if '.__schemas.OBJ' in files:
-                        if open_test(ovc_path):
-                            rows.append( { "name" : ovc } )
-                except Exception as e:
-                    log.write(e)
+                files = os.listdir(ovc_path)
+                if '.__schemas.OBJ' in files:
+                    if open_test(ovc_path):
+                        rows.append( { "name" : ovc } )
             except Exception as e:
                 log.write(e)
         return { "directory" : rows }
@@ -113,7 +110,8 @@ class SosRequest(object):
         #
         self.input_ = input_
         if 'container' in input_:
-            container = input_['container'].encode('utf-8')
+            container = input_['container']
+            log.write(container)
             try:
                 self.container_ = Sos.Container(str(settings.SOS_ROOT + '/' + container))
             except Exception as e:
@@ -136,8 +134,7 @@ class SosRequest(object):
         #
         if 'schema' in input_:
              try:
-                schema = input_['schema'].encode('utf-8')
-                #schema = schema.encode('utf-8')
+                schema = input_['schema']
                 if self.container():
                     self.schema_ = self.container().schema_by_name(schema)
              except Exception as e:
@@ -149,26 +146,26 @@ class SosRequest(object):
         # iDisplayStart (dataTable), start
         #
         if 'start' in input_:
-            self.start = input_['start'].encode('utf-8')
+            self.start = input_['start']
             self.start = int(self.start)
         # overrides start if specified
         if 'iDisplayStart' in input_:
-            self.start = input_['iDisplayStart'].encode('utf-8')
+            self.start = input_['iDisplayStart']
             self.start = int(self.start)
 
         #
         # iDisplayLength (dataTables), count
         #
         if 'count' in input_:
-            self.count = input_['count'].encode('utf-8')
+            self.count = input_['count']
             self.count = int(self.count)
         # overrides count if specified
         if 'iDisplayLength' in input_:
-            self.count = input_['iDisplayLength'].encode('utf-8')
+            self.count = input_['iDisplayLength']
             self.count = int(self.count)
         # Job Id
         if 'job_id' in input_:
-            self.job_id = input_['job_id'].encode('utf-8')
+            self.job_id = input_['job_id']
             self.job_id = int(self.job_id)
 
 
@@ -239,7 +236,7 @@ class SosSchema(SosRequest):
             query = request.GET
             self.parse_request(query)
         except Exception as e:
-	    log.write(e)
+            log.write(e)
             return SosErrorReply(e)
         if not self.schema():
             return SosErrorReply("A 'schema' clause must be specified.\n")
@@ -298,7 +295,7 @@ class SosQuery(SosRequest):
         # Open an iterator on the container
         #
         self.index_attr = None
-        self.index_name = self.parms['index'].encode('utf-8')
+        self.index_name = self.parms['index']
         if 'indexName' not in self.request.session:
             self.reset()
         if 'containerName' not in self.request.session:
@@ -321,7 +318,7 @@ class SosQuery(SosRequest):
         #
         self.view_cols = []
         if 'select' in self.parms:
-            self.select = self.parms['select'].encode('utf-8')
+            self.select = self.parms['select']
             for attr_name in self.select.split(','):
                 if attr_name != self.index_name:
                     self.view_cols.append(attr_name)
@@ -401,8 +398,8 @@ class SosTable(SosQuery):
             rows = []
             count = 0
             while obj is not None and count < self.count:
-                row = { 'DT_RowId':self.request.session['recordNo'] + count,
-                        str(self.index_name):str(obj[self.index_name])}
+                row = { 'DT_RowId':self.request.session['recordNo'] + count }
+                #        str(self.index_name):obj[self.index_name]}
                 for attr_name in self.view_cols:
                     if attr_name == self.index_name:
                         continue
@@ -436,7 +433,7 @@ class SosTable(SosQuery):
             for attr in self.schema():
                 if attr.name() in self.parms:
                     obj = self.schema().alloc()
-                    obj[attr.name()] = self.parms[attr.name()].encode('utf-8')
+                    obj[attr.name()] = self.parms[attr.name()]
             return { "status": 0 }
         except Exception as e:
             if self.filt:

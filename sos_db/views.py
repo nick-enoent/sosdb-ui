@@ -1,17 +1,15 @@
 from __future__ import absolute_import
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.template import Context, loader
-from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from .models import SosDir, SosContainer, SosSchema, SosTable
-from sosgui import logging
+from sosgui import _log
 import json
 import sys
 
-log = logging.MsgLog("sosdb_views")
+log = _log.MsgLog("sosdb_views")
 
 def directory(request):
     if request.user.is_authenticated:
@@ -71,7 +69,7 @@ def query(request):
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             log.write('Exception: '+repr(e)+' Line_no: '+repr(exc_tb.tb_lineno)+'\n')
-	    return HttpResponse(repr(e))
+            return HttpResponse(repr(e))
     else:
         resp = {}
         resp['authenticated'] = False
@@ -87,7 +85,7 @@ def insert(request):
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             log.write('Insert Obj Exception: '+repr(e)+' Line_no: '+repr(exc_tb.tb_lineno)+'\n')
-	    return HttpResponse(repr(e))
+            return HttpResponse(repr(e))
     else:
         resp = {}
         resp['authenticated'] = False
