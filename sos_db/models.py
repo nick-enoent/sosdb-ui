@@ -1,8 +1,3 @@
-from future import standard_library
-standard_library.install_aliases()
-from builtins import next
-from builtins import str
-from builtins import object
 import sys
 import os
 import datetime, time
