@@ -170,7 +170,7 @@ TIMEZONE=-(8*3600)
 try:
     import ldms_cfg
     LDMS_CFG = ldms_cfg.aggregators
-except Exception, e:
+except Exception as e:
     log.write(repr(e)+'\n')
     LDMS_CFG = { "aggregators" : [] }
 

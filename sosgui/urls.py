@@ -15,16 +15,20 @@ Including another URLconf
 """
 from django.contrib.auth import views as auth_views
 from django.conf.urls import include, url
+from django.urls import path
 from django.views.generic import TemplateView
 from django.contrib import admin
-import settings
-import views
+from . import settings
+from . import views
+from . import _log
+
+log = _log.MsgLog('sosgui.urls')
 
 urlpatterns = [
     url(r'^$', views.home),
-    url(r'^accounts/login/$', auth_views.login, name='login'),
-    url(r'^accounts/logout/$', auth_views.logout, name='logout'),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^accounts/login/$', auth_views.LoginView.as_view(), name='login'),
+    url(r'^accounts/logout/$', auth_views.LogoutView.as_view(), name='logout'),
+    url(r'^admin/', admin.site.urls),
     url(r'^container/', include('container.urls')),
     url(r'^sos_db/', include('sos_db.urls')),
     url(r'^objbrowser/', include('objbrowser.urls')),
@@ -33,6 +37,7 @@ urlpatterns = [
 if 'grafana' in settings.INSTALLED_APPS:
     urlpatterns.append(url(r'^grafana/', include('grafana.urls')))
 else:
+    _log.write('no grafana')
     pass
 if 'balerd' in settings.INSTALLED_APPS:
     urlpatterns.append(url(r'^balerd/', include('balerd.urls')))

@@ -2,7 +2,7 @@ import time
 import sys
 import traceback
 from datetime import datetime
-from sosgui import settings
+from . import settings
 
 class MsgLog(object):
     def __init__(self, prefix):
@@ -23,6 +23,11 @@ class MsgLog(object):
         self.fp.flush()
 
     def __del__(self):
+        if self.fp:
+            self.fp.close()
+        self.fp = None
+
+    def close(self):
         if self.fp:
             self.fp.close()
         self.fp = None

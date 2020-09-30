@@ -3,6 +3,5 @@ import os
 import datetime, time
 import tempfile
 import json
-import urlparse
+import urllib.parse
 from sosgui import settings
-

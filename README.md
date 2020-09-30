@@ -2,7 +2,7 @@ Overview
 ========
 
 This is a Django project for the SOS Web GUI and Plotting facilities. 
-It relies on sosdb >=3, `django`, and `django-http-proxy` (install
+It relies on sosdb >=3, `django`, and `django-cors-headers` (install
 via python pip is the easiest)..
 
 Installation Dependencies
@@ -11,22 +11,26 @@ Installation Dependencies
     autoconf
     automake
     libtool
-    python-devel (2.7)
+    python >= 3.6
     swig
     libevent-devel
     openssl-devel
     sosdb >= 3.4
     cmake
     httpd-devel (apache)
-    mod_wsgi (libache2-mod-wsgi on ubuntu) - install with yum, pip will not install to correct directory
     numpy
     libyaml-devel
-    Cython
+    Cython >= 3
+    sqlite3 >= 3.8.3
     pip (Install the following with pip:)
-	Django Version >= 1.10
+        mod_wsgi >= 3 - if installed with pip, additional config necessary
+            - add 10-wsgi.conf to /etc/httpd/conf.modules.d/
+                - file should read add LoadModule wsgi_module modules/mod_wsgi.so
+            - add symlink for mod_wsgi  to mod_wsgi.so
+	Django Version == 2.1.*
+            - using version >= 2.2 will break sqlite dependencies on centos7 and rhel
 	django-cors-headers
 	pandas
-	django-http-proxy
 
 
 Configure sosgui/settings.py
@@ -46,14 +50,14 @@ Edit TIMEZONE to reflect your local time zone.
         TIMEZONE = -(7*3600)
 
 Optional:
-    Change location of sos_web_svcs log file. Default is sosgui.log
+    Change location of ovis_web_svcs log file. Default is sosgui.log
 
 Install package from source
 ===========================
 ./autogen.sh
 mkdir build
 cd build
-../configure --prefix=<default /var/www/sos_web_svcs>
+../configure --prefix=<default /var/www/ovis_web_svcs>
 make
 make install
 
