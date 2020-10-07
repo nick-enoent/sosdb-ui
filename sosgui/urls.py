@@ -37,7 +37,8 @@ urlpatterns = [
 if 'grafana' in settings.INSTALLED_APPS:
     urlpatterns.append(url(r'^grafana/', include('grafana.urls')))
 else:
-    _log.write('no grafana')
+    log.write("Sosdb-grafana not detected in installation directory. \
+               If using grafana, please ensure it's installed in the same path as sosdb-ui")
     pass
 if 'balerd' in settings.INSTALLED_APPS:
     urlpatterns.append(url(r'^balerd/', include('balerd.urls')))
