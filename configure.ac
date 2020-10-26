@@ -7,7 +7,7 @@ AC_CONFIG_MACRO_DIR([m4])
 AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE([foreign])
 
-AM_PATH_PYTHON([2.7])
+AM_PATH_PYTHON([3.6])
 
 distdir=${PACKAGE_NAME}-${PACKAGE_VERSION}
 AC_SUBST(ac_configure_args)
