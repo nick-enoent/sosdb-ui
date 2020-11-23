@@ -243,8 +243,6 @@ class SosSchema(SosRequest):
                 stat = attr.index().stats()
                 row['card'] = int(stat['cardinality'])
                 row['dups'] = int(stat['duplicates'])
-                #row['min_key'] = int(attr.min())
-                #row['max_key'] = int(attr.max())
             else:
                 row['card'] = ""
                 row['dups'] = ""
@@ -260,7 +258,7 @@ class SosQuery(SosRequest):
     the first matching element, etc.
     """
     def __init__(self):
-        super( SosQuery, self ).__init__()
+        super().__init__()
         self.filt = None
 
     def reset(self):
