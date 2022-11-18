@@ -27,8 +27,9 @@ SECRET_KEY = 'tgi*mct^mr^%d=@(e5ix#!elxk5q3i3(&zzbt-!5op-#%h3!h9'
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    'localhost',
     '127.0.0.1',
-	'www.opengridcomputing.com',
+    'www.opengridcomputing.com',
 ]
 
 APPEND_SLASH = False
@@ -88,7 +89,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            '/var/www/ovis_web_svcs/templates',
+            os.path.join(BASE_DIR, 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -148,18 +149,20 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 #    '/static/',
-    '/var/www/ovis_web_svcs/static',
 ]
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SOS_ROOT = "/btrfs"
-LOG_FILE = "/var/www/ovis_web_svcs/sosgui.log"
+LOG_FILE = os.path.join(BASE_DIR, "sosgui.log")
 LOG_DATE_FMT = "%F %T"
-ODS_LOG_FILE = "/var/www/ovis_web_svcs/ods.log"
+ODS_LOG_FILE = os.path.join(BASE_DIR, "ods.log")
 ODS_LOG_MASK = "255"
 ODS_GC_TIMEOUT = 10
-BSTORE_PLUGIN="bstore_sos"
-os.environ.setdefault("BSTORE_PLUGIN_PATH", "/opt/ovis/lib64")
+
+# Baler configuration options - ignore if not using baler
+#BSTORE_PLUGIN="bstore_sos"
+#os.environ.setdefault("BSTORE_PLUGIN_PATH", "/opt/ovis/lib64")
+
 os.environ.setdefault("SET_POS_KEEP_TIME", "3600")
 TIMEZONE=-(8*3600)
 

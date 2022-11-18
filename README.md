@@ -22,16 +22,12 @@ Installation Dependencies
     libyaml-devel
     Cython >= 3
     sqlite3 >= 3.8.3
+    mod_wsgi (python3-mod_wsgi on RHEL 8)
     pip (Install the following with pip:)
-        mod_wsgi >= 3 - if installed with pip, additional config necessary
-            - add 10-wsgi.conf to /etc/httpd/conf.modules.d/
-                - file should read add LoadModule wsgi_module modules/mod_wsgi.so
-            - add symlink for mod_wsgi  to mod_wsgi.so
-	Django Version == 2.1.*
+	Django Version == 2.1.* if on CentOS 7
             - using version >= 2.2 will break sqlite dependencies on centos7 and rhel
 	django-cors-headers
 	pandas
-
 
 Configure sosgui/settings.py
 =====================

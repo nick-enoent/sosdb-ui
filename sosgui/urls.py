@@ -39,7 +39,7 @@ if 'grafana' in settings.INSTALLED_APPS:
 else:
     log.write("Sosdb-grafana not detected in installation directory. \
                If using grafana, please ensure it's installed in the same path as sosdb-ui")
-    pass
+
 if 'balerd' in settings.INSTALLED_APPS:
     urlpatterns.append(url(r'^balerd/', include('balerd.urls')))
     urlpatterns.append(url(r'^heatpattern/', include('heatpattern.urls')))
@@ -48,10 +48,7 @@ if 'balerd' in settings.INSTALLED_APPS:
     urlpatterns.append(url(r'^tkn_browser/', include('tkn_browser.urls')))
     urlpatterns.append(url(r'^opie/', include('opie.urls')))
     urlpatterns.append(url(r'^heatmap/', include('heatmap.urls')))
-else:
-    pass
+
 if 'ldms_control' in settings.INSTALLED_APPS:
     urlpatterns.append(url(r'^ldms/', include('ldms_control.urls')))
     urlpatterns.append(url(r'^ldms_err/', include('ldms_err.urls')))
-else:
-    pass
